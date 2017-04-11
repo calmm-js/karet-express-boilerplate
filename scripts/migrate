@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+const postgrator = require("postgrator")
+
+if (process.argv.length !== 3) {
+  console.log("ERROR: Version required as argument, e.g. 'max' or '000'")
+  process.exit(1)
+}
+
+const version = process.argv[2]
+console.log("NOTE: Migrating to version %j.", version)
+
+const database_url = process.env.DATABASE_URL
+if (!database_url) {
+  console.log("NOTE: DATABASE_URL not set -> doing nothing.")
+  process.exit(0)
+}
+
+const params = /^[^:]*:\/\/([^:]*):([^:]*)@([^:]*):([0-9]*)\/(.*)$/.exec(database_url)
+if (!params) {
+  console.log("ERROR: Couldn't parse DATABASE_URL.")
+  process.exit(1)
+}
+
+const [, username, password, host, port, database] = params
+
+postgrator.setConfig({
+  migrationDirectory: "db",
+  schemaTable: 'schemaversion',
+  driver: "pg",
+  host,
+  port,
+  database,
+  username,
+  password
+})
+
+postgrator.migrate(version, (err, migrations) => {
+  if (err) {
+    console.log(err)
+  } else {
+    console.log(migrations)
+  }
+  postgrator.endConnection(() => {
+    // connection is closed, or will close in the case of SQL Server
+  })
+})

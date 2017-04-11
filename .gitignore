@@ -1,0 +1,7 @@
+*.log
+*.min.js
+*~
+.DS_Store
+.idea
+node_modules
+public/generated

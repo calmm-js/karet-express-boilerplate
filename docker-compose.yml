@@ -1,0 +1,10 @@
+version: '2'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_PASSWORD=keb
+      - POSTGRES_USER=keb
+      - POSTGRES_DB=keb
+    ports:
+      - "5432:5432"
