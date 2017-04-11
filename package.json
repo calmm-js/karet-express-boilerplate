@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "livereload:public": "livereload public",
     "migrate": "node ./scripts/migrate",
-    "postinstall": "npm run bundle",
+    "postinstall": "mkdir -p public/generated && npm run bundle",
     "prepublish": "npm run test",
     "start": "npm run migrate max & wait && node $NODE_OPTS src/server/start.js",
     "test": "npm run lint && NO_USERAGENT=1 mocha --require ./test-helper.js -t 4000",
