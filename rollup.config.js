@@ -21,6 +21,11 @@ export default {
         "node_modules/react-dom/index.js": [
           "render",
         ],
+        "node_modules/react/react.js": [
+          "Component",
+          "PropTypes",
+          "createElement"
+        ],
         "node_modules/kefir/dist/kefir.js": [
           "Observable",
           "Property",
