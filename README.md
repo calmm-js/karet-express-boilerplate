@@ -15,6 +15,14 @@ Then:
 open http://localhost:3000
 ```
 
+## Windows
+
+If you are working on Windows, then you should know that the NPM scripts in
+the [`package.json`](./package.json#L7) are designed to run with Bash.  If you
+cannot have Bash shell installed for some reason, then you need to port those
+scripts to CMD or something else.  Note that this project is just a sample.  You
+will always want to customize the scripts for your particular needs.
+
 ## With DB
 
 For full experience you will also need a DB.  An easy way to get a DB running
