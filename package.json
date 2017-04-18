@@ -48,6 +48,7 @@
     "less-plugin-clean-css": "^1.5.1",
     "node-postgres-named": "^2.4.1",
     "partial.lenses": "^10.0.1",
+    "path-to-regexp": "^1.7.0",
     "pg": "^6.1.5",
     "pg-native": "^1.10.1",
     "postcss-cli": "^3.1.1",

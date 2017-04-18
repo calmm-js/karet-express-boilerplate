@@ -26,8 +26,12 @@ const Contacts = ({contacts}) =>
     Number of contacts: {U.length(contacts)}
   </div>
 
-export default U.withContext((_, {state}) =>
+export default U.withContext((props, {state}) =>
   <div>
     <h1>Main page</h1>
     <Contacts contacts={U.view(["contacts", L.define([])], state)}/>
-  </div>)
+    { typeof L.get( [ 'params', 'id' ], props ) !== 'undefined'
+      && <div>With ID: { L.get( [ 'params', 'id' ], props ) }</div>
+    }
+  </div>
+)
