@@ -12,6 +12,7 @@ export default ({visible = U.atom(true)}) =>
         <Link href="/">Main</Link>
         <Link href="/another-page">Another page</Link>
         <Link href="/form">Form</Link>
+        <Link href="/main/1234">Main with ID</Link>
       </div>
     </div>
   </div>

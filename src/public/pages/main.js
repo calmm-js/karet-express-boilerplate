@@ -26,8 +26,10 @@ const Contacts = ({contacts}) =>
     Number of contacts: {U.length(contacts)}
   </div>
 
-export default U.withContext((_, {state}) =>
+export default U.withContext(({ id }, {state}) =>
   <div>
     <h1>Main page</h1>
     <Contacts contacts={U.view(["contacts", L.define([])], state)}/>
-  </div>)
+    { U.ift( id, <div>With ID: { id }</div> ) }
+  </div>
+)

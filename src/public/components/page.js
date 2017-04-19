@@ -1,11 +1,11 @@
-import React from "karet"
+import React      from "karet"
 
-import NotFound from "../pages/not-found"
+import NotFound   from "../pages/not-found"
 
-import routes from "../routes"
+import routes     from "../routes"
 
-import Header from "./header"
-import Router from "./router"
+import Header     from "./header"
+import { Router } from "./router"
 
 export default () =>
   <div>
