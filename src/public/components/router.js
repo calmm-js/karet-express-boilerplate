@@ -13,7 +13,10 @@ const expandRoutes =
 
 const addRegexes =
   R.map( entry =>
-         ( { ...entry, regex: toRegex( entry.route ) } )
+         { const regex = toRegex( entry.route )
+           regex.keys = regex.keys.map( R.prop( 'name' ) )
+           return { ...entry, regex }
+         }
        )
 
 const sortStaticFirst =
@@ -32,7 +35,7 @@ const router = U.lift( ( { routes, NotFound }, { path } ) =>
          const { Component, regex } = routes[ i ]
          const match = regex.exec( path )
          if ( match )
-           return <Component { ...R.zipObj( regex.keys.map( R.prop( 'name' ) ), R.tail( match ) ) }/>
+           return <Component { ...R.zipObj( regex.keys, R.tail( match ) ) }/>
        }
        return <NotFound/>
      }
