@@ -4,6 +4,6 @@ import Link from "../components/link"
 
 export default () =>
   <div>
-    <h1>Sivua ei löytynyt</h1>
-    <Link href="/">Palaa etusivulle</Link>
+    <h1>Page not found!</h1>
+    <Link href="/">Return to main page</Link>
   </div>
