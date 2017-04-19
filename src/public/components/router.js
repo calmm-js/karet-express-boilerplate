@@ -29,7 +29,7 @@ const expandRoutes =
            , R.toPairs
            )
 
-const init =
+const prepareRoutes =
   R.compose( R.zipObj( [ 'dynamic', 'static' ] )
            , partitionDynamicAndStatic
            , addRegexes
@@ -45,21 +45,21 @@ const resolveStatic = path =>
            , L.get( 'static' )
            )
 
-const prepParams =
+const prepareParams =
   R.compose( R.zipObj
            , R.map( L.get( 'name' ) )
            )
 
 const resolveDynamic = path =>
-  R.compose( R.reduce( ( acc, { component, route, regex } ) =>
-                       { const match = regex.exec( path )
-                         return match !== null
-                                ? R.reduced( { component, path, route, regex
-                                             , params: prepParams( regex.keys )( R.tail( match ) )
-                                             }
-                                           )
-                                : acc
-                       }
+  R.compose( R.reduce( ( acc, { component, regex } ) =>
+                       R.ifElse( R.isNil
+                               , R.always( acc )
+                               , match =>
+                                   R.reduced( { component
+                                              , params: prepareParams( regex.keys )( R.tail( match ) )
+                                              }
+                                            )
+                               )( regex.exec( path ) )
                      , false
                      )
            , L.get( 'dynamic' )
@@ -67,17 +67,16 @@ const resolveDynamic = path =>
 
 const resolveRoute = ( { routes, NotFound }, { path }  ) =>
   U.fromKefir( K( path, path =>
-                  { const { component, ...route } =
+                  { const { component, params } =
                       resolveStatic( path )( routes )
                       || resolveDynamic( path )( routes )
                       || { component: NotFound, path }
-                    return React.createElement( component, route )
+                    return React.createElement( component, params )
                   }
                 )
              )
 // end route resolution
 
 const Router = U.withContext( resolveRoute )
-Router.init = init
 
-export default Router
+export { Router, prepareRoutes }
