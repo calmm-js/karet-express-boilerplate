@@ -1,70 +1,41 @@
 import * as R     from "ramda"
-import * as L     from "partial.lenses"
-import K, * as U  from "karet.util"
+import * as U     from "karet.util"
 import React      from "karet"
 import toRegex    from 'path-to-regexp'
 
 // TODO: Make it possible to add routes more than once?
 
 // begin routes initialization
-const expandRoutes = rawRoutes =>
+const expandRoutes =
   R.pipe( R.toPairs
-        , R.map( R.zipObj( [ 'route', 'component' ] ) )
-        )( rawRoutes )
+        , R.map( R.zipObj( [ 'route', 'Component' ] ) )
+        )
 
-const addRegexes = expandedRoutes =>
-  R.map( route => R.pipe( L.get( 'route' )
-                        , toRegex
-                        , L.set( 'regex' )
-                        )( route )( route )
-       )( expandedRoutes )
+const addRegexes =
+  R.map( entry =>
+         ( { ...entry, regex: toRegex( entry.route ) } )
+       )
 
-const partitionDynamicAndStatic = routesWithRegexes =>
-  R.partition( R.pipe( L.get( [ 'regex', 'keys' ] )
-                     , R.length
-                     , R.lt( 0 )
-                     )
-             )( routesWithRegexes )
+const sortByStaticThenDynamic =
+  R.sortBy( ( { regex } ) => regex.keys.length )
 
-export const prepareRoutes = rawRoutes =>
+export const prepareRoutes =
   R.pipe( expandRoutes
         , addRegexes
-        , partitionDynamicAndStatic
-        , R.zipObj( [ 'dynamic', 'static' ] )
-        )( rawRoutes )
+        , sortByStaticThenDynamic
+        )
 // end routes initialization
 
-//
+// route resolution
+const router = U.lift( ( { routes, NotFound }, { path } ) =>
+     { for ( let i = 0; i < routes.length; ++i ) {
+         const { Component, regex } = routes[ i ]
+         const match = regex.exec( path )
+         if ( match )
+           return <Component { ...R.zipObj( regex.keys, R.tail( match ) ) }/>
+       }
+       return <NotFound/>
+     }
+   )
 
-// begin route resolution
-const prepareParams = ( keys, matches ) =>
-  R.pipe( R.map( L.get( 'name' ) )
-        , R.zipObj
-        )( keys, matches )
-
-const resolver = ( path, routes ) =>
-  R.reduce( ( acc, { component, regex } ) =>
-              R.ifElse( R.isNil
-                      , R.always( acc )
-                      , match =>
-                          R.reduced( { component
-                                     , props: prepareParams( regex.keys, R.tail( match ) )
-                                     }
-                                   )
-                      )( regex.exec( path ) )
-          , false
-          )( routes )
-
-const resolveRoute = ( { routes, NotFound }, { path }  ) =>
-  U.fromKefir( K( path, path =>
-                  { const { component, props } =
-                      resolver( path, routes.static )
-                      || resolver( path, routes.dynamic )
-                      || { component: NotFound }
-                    return React.createElement( component, props )
-                  }
-                )
-             )
-// end route resolution
-
-export const Router = U.withContext( resolveRoute )
+export const Router = U.withContext( R.pipe( router, U.fromKefir ) )
