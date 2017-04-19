@@ -52,14 +52,14 @@ const prepareParams =
 
 const resolveDynamic = path =>
   R.compose( R.reduce( ( acc, { component, regex } ) =>
-                       R.ifElse( R.isNil
-                               , R.always( acc )
-                               , match =>
-                                   R.reduced( { component
-                                              , params: prepareParams( regex.keys )( R.tail( match ) )
-                                              }
-                                            )
-                               )( regex.exec( path ) )
+                         R.ifElse( R.isNil
+                                 , R.always( acc )
+                                 , match =>
+                                     R.reduced( { component
+                                                , props: prepareParams( regex.keys )( R.tail( match ) )
+                                                }
+                                              )
+                                 )( regex.exec( path ) )
                      , false
                      )
            , L.get( 'dynamic' )
@@ -67,11 +67,11 @@ const resolveDynamic = path =>
 
 const resolveRoute = ( { routes, NotFound }, { path }  ) =>
   U.fromKefir( K( path, path =>
-                  { const { component, params } =
+                  { const { component, props } =
                       resolveStatic( path )( routes )
                       || resolveDynamic( path )( routes )
                       || { component: NotFound, path }
-                    return React.createElement( component, params )
+                    return React.createElement( component, props )
                   }
                 )
              )
