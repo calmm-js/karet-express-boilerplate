@@ -26,26 +26,23 @@ const partitionDynamicAndStatic = routesWithRegexes =>
                      )
              )( routesWithRegexes )
 
-const prepareRoutes = rawRoutes =>
+export const prepareRoutes = rawRoutes =>
   R.pipe( expandRoutes
         , addRegexes
         , partitionDynamicAndStatic
-        , R.zipObj( [ 'dynamicRoutes', 'staticRoutes' ] )
+        , R.zipObj( [ 'dynamic', 'static' ] )
         )( rawRoutes )
 // end routes initialization
 
 //
 
 // begin route resolution
-const resolveStatic = ( path, { staticRoutes } ) =>
-  R.find( R.propEq( 'route', path ) )( staticRoutes )
-
 const prepareParams = ( keys, matches ) =>
   R.pipe( R.map( L.get( 'name' ) )
         , R.zipObj
         )( keys, matches )
 
-const resolveDynamic = ( path, { dynamicRoutes } ) =>
+const resolver = ( path, routes ) =>
   R.reduce( ( acc, { component, regex } ) =>
               R.ifElse( R.isNil
                       , R.always( acc )
@@ -56,13 +53,13 @@ const resolveDynamic = ( path, { dynamicRoutes } ) =>
                                    )
                       )( regex.exec( path ) )
           , false
-          )( dynamicRoutes )
+          )( routes )
 
 const resolveRoute = ( { routes, NotFound }, { path }  ) =>
   U.fromKefir( K( path, path =>
                   { const { component, props } =
-                      resolveStatic( path, routes )
-                      || resolveDynamic( path, routes )
+                      resolver( path, routes.static )
+                      || resolver( path, routes.dynamic )
                       || { component: NotFound }
                     return React.createElement( component, props )
                   }
@@ -70,6 +67,4 @@ const resolveRoute = ( { routes, NotFound }, { path }  ) =>
              )
 // end route resolution
 
-const Router = U.withContext( resolveRoute )
-
-export { Router, prepareRoutes }
+export const Router = U.withContext( resolveRoute )
