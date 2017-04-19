@@ -70,7 +70,7 @@ const resolveRoute = ( { routes, NotFound }, { path }  ) =>
                   { const { component, props } =
                       resolveStatic( path )( routes )
                       || resolveDynamic( path )( routes )
-                      || { component: NotFound, path }
+                      || { component: NotFound }
                     return React.createElement( component, props )
                   }
                 )
