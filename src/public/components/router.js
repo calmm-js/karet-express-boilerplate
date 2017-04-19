@@ -30,7 +30,7 @@ const expandRoutes =
            )
 
 const prepareRoutes =
-  R.compose( R.zipObj( [ 'dynamic', 'static' ] )
+  R.compose( R.zipObj( [ 'dynamicRoutes', 'staticRoutes' ] )
            , partitionDynamicAndStatic
            , addRegexes
            , expandRoutes
@@ -40,36 +40,32 @@ const prepareRoutes =
 //
 
 // begin route resolution
-const resolveStatic = path =>
-  R.compose( R.find( R.propEq( 'route', path ) )
-           , L.get( 'static' )
-           )
+const resolveStatic = ( path, { staticRoutes } ) =>
+  R.find( R.propEq( 'route', path ) )( staticRoutes )
 
 const prepareParams =
   R.compose( R.zipObj
            , R.map( L.get( 'name' ) )
            )
 
-const resolveDynamic = path =>
-  R.compose( R.reduce( ( acc, { component, regex } ) =>
-                         R.ifElse( R.isNil
-                                 , R.always( acc )
-                                 , match =>
-                                     R.reduced( { component
-                                                , props: prepareParams( regex.keys )( R.tail( match ) )
-                                                }
-                                              )
-                                 )( regex.exec( path ) )
-                     , false
-                     )
-           , L.get( 'dynamic' )
-           )
+const resolveDynamic = ( path, { dynamicRoutes } ) =>
+  R.reduce( ( acc, { component, regex } ) =>
+              R.ifElse( R.isNil
+                      , R.always( acc )
+                      , match =>
+                          R.reduced( { component
+                                     , props: prepareParams( regex.keys )( R.tail( match ) )
+                                     }
+                                   )
+                      )( regex.exec( path ) )
+          , false
+          )( dynamicRoutes )
 
 const resolveRoute = ( { routes, NotFound }, { path }  ) =>
   U.fromKefir( K( path, path =>
                   { const { component, props } =
-                      resolveStatic( path )( routes )
-                      || resolveDynamic( path )( routes )
+                      resolveStatic( path, routes )
+                      || resolveDynamic( path, routes )
                       || { component: NotFound }
                     return React.createElement( component, props )
                   }
