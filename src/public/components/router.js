@@ -4,37 +4,34 @@ import K, * as U  from "karet.util"
 import React      from "karet"
 import toRegex    from 'path-to-regexp'
 
-const W = a => b => a( b )( b )
-
 // TODO: Make it possible to add routes more than once?
 
+const expandRoutes = rawRoutes =>
+  R.pipe( R.toPairs
+        , R.map( R.zipObj( [ 'route', 'component' ] ) )
+        )( rawRoutes )
+
+const addRegexes = expandedRoutes =>
+  R.map( route => R.pipe( L.get( 'route' )
+                        , toRegex
+                        , L.set( 'regex' )
+                        )( route )( route )
+       )( expandedRoutes )
+
 // begin routes initialization
-const partitionDynamicAndStatic =
-  R.partition( R.compose( R.lt( 0 )
-                        , R.length
-                        , L.get( [ 'regex', 'keys' ] )
-                        )
-             )
-
-const addRegexes =
-  R.map( W( R.compose( L.set( 'regex' )
-                     , toRegex
-                     , L.get( 'route' )
+const partitionDynamicAndStatic = routesWithRegexes =>
+  R.partition( R.pipe( L.get( [ 'regex', 'keys' ] )
+                     , R.length
+                     , R.lt( 0 )
                      )
-          )
-       )
+             )( routesWithRegexes )
 
-const expandRoutes =
-  R.compose( R.map( R.zipObj( [ 'route', 'component' ] ) )
-           , R.toPairs
-           )
-
-const prepareRoutes =
-  R.compose( R.zipObj( [ 'dynamicRoutes', 'staticRoutes' ] )
-           , partitionDynamicAndStatic
-           , addRegexes
-           , expandRoutes
-           )
+const prepareRoutes = rawRoutes =>
+  R.pipe( expandRoutes
+        , addRegexes
+        , partitionDynamicAndStatic
+        , R.zipObj( [ 'dynamicRoutes', 'staticRoutes' ] )
+        )( rawRoutes )
 // end routes initialization
 
 //
@@ -43,10 +40,10 @@ const prepareRoutes =
 const resolveStatic = ( path, { staticRoutes } ) =>
   R.find( R.propEq( 'route', path ) )( staticRoutes )
 
-const prepareParams =
-  R.compose( R.zipObj
-           , R.map( L.get( 'name' ) )
-           )
+const prepareParams = ( keys, matches ) =>
+  R.pipe( R.map( L.get( 'name' ) )
+        , R.zipObj
+        )( keys, matches )
 
 const resolveDynamic = ( path, { dynamicRoutes } ) =>
   R.reduce( ( acc, { component, regex } ) =>
@@ -54,7 +51,7 @@ const resolveDynamic = ( path, { dynamicRoutes } ) =>
                       , R.always( acc )
                       , match =>
                           R.reduced( { component
-                                     , props: prepareParams( regex.keys )( R.tail( match ) )
+                                     , props: prepareParams( regex.keys, R.tail( match ) )
                                      }
                                    )
                       )( regex.exec( path ) )
