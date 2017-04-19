@@ -16,13 +16,13 @@ const addRegexes =
          ( { ...entry, regex: toRegex( entry.route ) } )
        )
 
-const sortByStaticThenDynamic =
-  R.sortBy( ( { regex } ) => regex.keys.length )
+const sortStaticFirst =
+  R.sortBy( ( { regex } ) => regex.keys.length === 0 ? 0 : 1 )
 
 export const prepareRoutes =
   R.pipe( expandRoutes
         , addRegexes
-        , sortByStaticThenDynamic
+        , sortStaticFirst
         )
 // end routes initialization
 
@@ -32,7 +32,7 @@ const router = U.lift( ( { routes, NotFound }, { path } ) =>
          const { Component, regex } = routes[ i ]
          const match = regex.exec( path )
          if ( match )
-           return <Component { ...R.zipObj( regex.keys, R.tail( match ) ) }/>
+           return <Component { ...R.zipObj( regex.keys.map( R.prop( 'name' ) ), R.tail( match ) ) }/>
        }
        return <NotFound/>
      }
