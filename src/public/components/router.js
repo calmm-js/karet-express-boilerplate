@@ -6,6 +6,7 @@ import toRegex    from 'path-to-regexp'
 
 // TODO: Make it possible to add routes more than once?
 
+// begin routes initialization
 const expandRoutes = rawRoutes =>
   R.pipe( R.toPairs
         , R.map( R.zipObj( [ 'route', 'component' ] ) )
@@ -18,7 +19,6 @@ const addRegexes = expandedRoutes =>
                         )( route )( route )
        )( expandedRoutes )
 
-// begin routes initialization
 const partitionDynamicAndStatic = routesWithRegexes =>
   R.partition( R.pipe( L.get( [ 'regex', 'keys' ] )
                      , R.length
