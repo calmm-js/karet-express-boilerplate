@@ -14,6 +14,7 @@ export default ({visible = U.atom(true)}) =>
         <Link href="/form">Form</Link>
         <Link href="/main/1234">Main with ID</Link>
         <Link href="/meiosis">Meiosis</Link>
+        <Link href="/company">Company</Link>
       </div>
     </div>
   </div>
