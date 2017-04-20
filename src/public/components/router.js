@@ -13,16 +13,19 @@ const expandRoutes =
 
 const addRegexes =
   R.map( entry =>
-         ( { ...entry, regex: toRegex( entry.route ) } )
+         { const regex = toRegex( entry.route )
+           regex.keys = regex.keys.map( R.prop( 'name' ) )
+           return { ...entry, regex }
+         }
        )
 
-const sortByStaticThenDynamic =
-  R.sortBy( ( { regex } ) => regex.keys.length )
+const sortStaticFirst =
+  R.sortBy( ( { regex } ) => regex.keys.length === 0 ? 0 : 1 )
 
 export const prepareRoutes =
   R.pipe( expandRoutes
         , addRegexes
-        , sortByStaticThenDynamic
+        , sortStaticFirst
         )
 // end routes initialization
 
