@@ -10,9 +10,10 @@ const TextInput = ({mount, value, ...props}) =>
          onChange={U.getProps({value})}
          {...props}/>
 
-const JoinView = ({title, other, unique, primaries, secondaries}) => {
-  const Primary = ({primary}) => {
-    const assignments = U.view(["assignments", L.define([])], primary)
+const JoinView = ({title, other, unique, joins, secondaries}) => {
+  const Primary = ({join}) => {
+    const primary = U.view("primary", join)
+    const assignments = U.view(["assignments", L.define([])], join)
     const sub = id => () => assignments.modify(R.reject(R.equals(id)))
     const search = U.atom("")
     const add = id => () => U.holding(() => {
@@ -37,7 +38,7 @@ const JoinView = ({title, other, unique, primaries, secondaries}) => {
           <TextInput mount={e => L.get("value", e) === "" && e.focus()}
                      placeholder="name"
                      value={U.view("name", primary)}/>
-          <button onClick={() => primary.remove()}>Delete</button>
+          <button onClick={() => join.remove()}>Delete</button>
         </div>
         <div className="assignments">
           {U.seq(assignments, U.mapCached(id =>
@@ -62,7 +63,7 @@ const JoinView = ({title, other, unique, primaries, secondaries}) => {
   const addNew = () => U.holding(() => {
     const id = unique.get().toString()
     unique.modify(R.add(1))
-    primaries.modify(R.append({id, name: "", assignments: []}))
+    joins.modify(R.append({primary: {id, name: ""}, assignments: []}))
   })
 
   return (
@@ -72,9 +73,9 @@ const JoinView = ({title, other, unique, primaries, secondaries}) => {
         <button onClick={addNew}>New</button>
       </div>
       <div>
-        {U.seq(primaries, U.map(L.get("id")), U.mapCached(id =>
+        {U.seq(joins, U.map(L.get(["primary", "id"])), U.mapCached(id =>
            <Primary key={id}
-                    primary={U.view(L.find(R.whereEq({id})), primaries)}/>))}
+                    join={U.view(L.find(x => x.primary.id === id), joins)}/>))}
       </div>
     </div>
   )
@@ -91,31 +92,32 @@ const joinView = R.pipe(plurals, ({primary, secondary, primaries, secondaries}) 
   const to = data => {
     const assignmentsByPrimary = R.groupBy(L.get(primary), data.assignments)
     return {
-      primaries: U.seq(
+      joins: U.seq(
         data[primaries],
-        R.map(({id, ...props}) => ({
-          id,
-          ...props,
+        R.map(primary => ({
+          primary,
           assignments: U.seq(assignmentsByPrimary,
-                             L.collect([id, L.elems, secondary]),
+                             L.collect([primary.id, L.elems, secondary]),
                              R.sortBy(R.identity))
         }))),
       secondaries: data[secondaries]
     }
   }
   const from = data => ({
-    [primaries]: U.seq(data.primaries,
-                       R.map(L.remove("assignments"))),
+    [primaries]: L.collect(["joins", L.elems, "primary"], data),
     [secondaries]: data.secondaries,
-    assignments: U.seq(data.primaries,
-                       R.chain(prim =>
-                               U.seq(prim.assignments,
-                                     R.map(secondaryId => ({
-                                       [primary]: prim.id,
-                                       [secondary]: secondaryId
-                                     })))))
+    assignments: L.collect(["joins",
+                            L.elems,
+                            L.choose(join => [
+                              "assignments",
+                              L.elems,
+                              secondaryId => ({
+                                [primary]: join.primary.id,
+                                [secondary]: secondaryId
+                              })])],
+                           data)
   })
-  return [L.iso(to, from), "primaries", L.define([])]
+  return [L.iso(to, from), "joins", L.define([])]
 })
 
 const defaults = {
@@ -137,8 +139,6 @@ const defaults = {
 export default U.withContext((_, {state}) => {
   const unique = U.view(["unique", L.valueOr(10)], state)
   const company = U.view(["company", L.define(defaults)], state)
-  const    projects = U.view(joinView("project", "consultant"), company)
-  const consultants = U.view(joinView("consultant", "project"), company)
   return (
     <div id="company">
       <h1>Company</h1>
@@ -146,13 +146,13 @@ export default U.withContext((_, {state}) => {
         <JoinView title="Projects"
                   other="consultant"
                   unique={unique}
-                  primaries={projects}
-                  secondaries={consultants}/>
+                  joins={U.view(joinView("project", "consultant"), company)}
+                  secondaries={U.view("consultants", company)}/>
         <JoinView title="Consultants"
                   other="project"
                   unique={unique}
-                  primaries={consultants}
-                  secondaries={projects}/>
+                  joins={U.view(joinView("consultant", "project"), company)}
+                  secondaries={U.view("projects", company)}/>
       </div>
     </div>
   )
