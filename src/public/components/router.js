@@ -30,7 +30,7 @@ export const prepareRoutes =
 // end routes initialization
 
 // route resolution
-const router = U.lift( ( { routes, NotFound }, { path } ) =>
+const router = U.lift(( routes, NotFound, path ) =>
      { for ( let i = 0; i < routes.length; ++i ) {
          const { Component, regex } = routes[ i ]
          const match = regex.exec( path )
@@ -41,4 +41,5 @@ const router = U.lift( ( { routes, NotFound }, { path } ) =>
      }
    )
 
-export const Router = U.withContext( R.pipe( router, U.fromKefir ) )
+export const Router = U.withContext( ( { routes, NotFound }, { path } ) =>
+   U.fromKefir( router( routes, NotFound, path ) ) )
