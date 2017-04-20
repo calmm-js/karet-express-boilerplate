@@ -16,6 +16,6 @@ export const context = (location, host, state) => ({
   host,
   params: U.view(searchParamsL, location),
   path: U.view("path", location),
-  state: state,
+  state,
   meta: Meta.get(location, host)
 })
