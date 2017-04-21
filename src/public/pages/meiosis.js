@@ -3,27 +3,22 @@ import * as R from "ramda"
 import * as U from "karet.util"
 import React  from "karet"
 
-const Entry = ({entry}) => {
-  const value = U.view("value", entry)
-  return (
-    <div>
-      <span>Entry number:</span>
-      <input type="text" size="2" value={value}
-        onChange={e => value.set(e.target.value)}/>
-    </div>
-  )
-}
+const LabeledInput = ({value, label, ...props}) =>
+  <div>
+    <span>{label}</span>
+    <input value={value} onChange={U.getProps({value})} {...props}/>
+  </div>
 
-const Date = ({date}) => {
-  const value = U.view("value", date)
-  return (
-    <div>
-      <span>Date:</span>
-      <input type="text" size="10" value={value}
-        onChange={e => value.set(e.target.value)}/>
-    </div>
-  )
-}
+const Entry = ({entry}) =>
+  <LabeledInput label="Entry number:" type="text" size="2"
+    value={U.view("value", entry)}/>
+
+const Date = ({date}) =>
+  <LabeledInput label="Date:" type="text" size="10"
+    value={U.view("value", date)}/>
+
+const toFahrenheit = value => Math.round( value * 9 / 5 + 32 )
+const toCelsius = value => Math.round( (value - 32) / 9 * 5 )
 
 const Temperature = ({temperature}) => {
   const label = U.view("label", temperature)
@@ -32,14 +27,15 @@ const Temperature = ({temperature}) => {
 
   const increase = by => () => value.modify(R.add(by))
 
-  const toFahrenheit = value => Math.round( value * 9 / 5 + 32 )
-  const toCelsius = value => Math.round( (value - 32) / 9 * 5 )
-
-  const changeUnits = () => temperature.modify(R.ifElse(
-    R.propEq("units", "C"),
-    R.compose(L.set("units", "F"), L.modify("value", toFahrenheit)),
-    R.compose(L.set("units", "C"), L.modify("value", toCelsius))
-  ))
+  const changeUnits = () => U.holding(() => {
+    if (units.get() === "C") {
+      units.set("F")
+      value.modify(toFahrenheit)
+    } else {
+      units.set("C")
+      value.modify(toCelsius)
+    }
+  })
 
   return (
     <div className="row">
@@ -68,26 +64,26 @@ const defaults = {
   saved: ""
 }
 
+const displayTemperature = temperature =>
+  temperature.label + ": " +
+  temperature.value + "\xB0" + temperature.units
+
+const message = model =>
+  "Entry #" + model.entry.value +
+  " on " + model.date.value + ":" +
+  " Temperatures: " +
+  displayTemperature(model.temperature.air) + " " +
+  displayTemperature(model.temperature.water)
+
 export default U.withContext((_, {state}) => {
   const meiosis = U.view(["meiosis", L.valueOr(defaults)], state)
 
-  const displayTemperature = temperature =>
-    temperature.label + ": " +
-    temperature.value + "\xB0" + temperature.units
-
-  const message = model => L.set("saved", "Entry #" + model.entry.value +
-    " on " + model.date.value + ":" +
-    " Temperatures: " +
-    displayTemperature(model.temperature.air) + " " +
-    displayTemperature(model.temperature.water), model)
-
-  const save = evt => {
+  function save(evt) {
     evt.preventDefault()
     meiosis.modify(R.pipe(
-      message,
+      L.set("saved", message(meiosis.get())),
       L.set(["entry", "value"], ""),
-      L.set(["date", "value"], "")
-    ))
+      L.set(["date", "value"], "")))
   }
 
   return (
