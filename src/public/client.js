@@ -39,6 +39,7 @@ if (process.env.NODE_ENV !== "production") {
   window.React = React
   window.U = U
   window.state = state
+  window.context = context
 
   state.log("state")
 }
