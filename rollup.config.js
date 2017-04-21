@@ -23,7 +23,6 @@ export default {
         ],
         "node_modules/react/react.js": [
           "Component",
-          "PropTypes",
           "createElement"
         ],
         "node_modules/kefir/dist/kefir.js": [
