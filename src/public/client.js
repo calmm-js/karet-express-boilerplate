@@ -28,10 +28,7 @@ const context = State.context(location, window.location.host, state)
 
 //
 
-context.meta.changes().onValue(meta => {
-  document.title = meta.title
-  Meta.setToHead(meta)
-})
+context.meta.changes().onValue(Meta.setToHead)
 
 //
 

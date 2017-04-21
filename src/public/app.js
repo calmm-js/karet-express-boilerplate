@@ -44,7 +44,6 @@ function web(app) {
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=EDGE">
     ${Meta.renderToStrings(meta).join("\n    ")}
-    <title>${meta.title}</title>
   </head>
   <body>
     <div id="app-view">${isProd ? app : ""}</div>

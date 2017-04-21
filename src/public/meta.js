@@ -20,18 +20,28 @@ const urls = [L.props("img", "url"), L.values]
 export const get = U.lift(({path}, host) =>
   L.modify(urls, url => `http://${host}/${url}`, metas[path] || metaDefault))
 
+//
+
+const title = {
+  set: m => document.title = m.title,
+  render: m => `<title>${m.title}</title>`
+}
+
+const meta = (p, l) => ({
+  set: m => document.head.querySelector(`[${p}]`).content = L.get(l, m),
+  render: m => `<meta ${p} content="${L.get(l, m)}">`
+})
+
 const props = [
-  ['name="description"',         "description"],
-  ['name="twitter:card"',        R.always("summary_large_image")],
-  ['name="twitter:description"', "description"],
-  ['name="twitter:title"',       "title"],
-  ['property="og:description"',  "description"],
-  ['property="og:title"',        "title"],
-  ['property="og:type"',         R.always("website")]
+  title,
+  meta('name="description"',         "description"),
+  meta('name="twitter:card"',        R.always("summary_large_image")),
+  meta('name="twitter:description"', "description"),
+  meta('name="twitter:title"',       "title"),
+  meta('property="og:description"',  "description"),
+  meta('property="og:title"',        "title"),
+  meta('property="og:type"',         R.always("website"))
 ]
 
-export const setToHead = meta => props.forEach(
-  ([p, l]) => document.head.querySelector(`[${p}]`).content = L.get(l, meta))
-
-export const renderToStrings = meta => props.map(
-  ([p, l]) => `<meta ${p} content="${L.get(l, meta)}">`)
+export const setToHead = m => props.forEach(p => p.set(m))
+export const renderToStrings = m => props.map(p => p.render(m))
