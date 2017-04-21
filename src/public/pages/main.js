@@ -28,6 +28,12 @@ export default () =>
     <p>this application runs in development mode and with</p>
     <pre>npm run bundle && NODE_ENV=production npm start</pre>
     <p>this application runs in production mode.</p>
+    <p>
+      Note that this sample performs server side rendering, but the server side
+      render is only sent to the client in production mode.  That is basically
+      done to avoid having to restart the server after each change of rendering
+      code.
+    </p>
 
     <h2>State and LiveReload</h2>
     <p>
