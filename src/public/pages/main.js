@@ -4,7 +4,7 @@ import React  from "karet"
 import Link from "../components/link"
 
 const libs = [
-  ["Kefir", "http://rpominov.github.io/kefir", "Kefir"],
+  ["Kefir", "https://rpominov.github.io/kefir", "Kefir"],
   ["L", "https://github.com/calmm-js/partial.lenses/#partial-lenses", "Partial Lenses"],
   ["R", "http://ramdajs.com/", "Ramda"],
   ["React", "https://github.com/calmm-js/karet#karet", "Karet"],
