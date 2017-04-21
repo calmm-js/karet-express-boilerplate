@@ -70,7 +70,7 @@ export default () =>
       </tbody>
     </table>
     <p>
-      the <code>window</code> object and also logs application state changes.
+      on the <code>window</code> object and also logs application state changes.
       If you open the JavaScript console you can play with those.  For example,
       try to run the following in the JavaScript console:
     </p>
