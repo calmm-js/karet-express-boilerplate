@@ -29,11 +29,14 @@ const _subPathL = pagePathRoot =>
        )
 const subPathL = U.lift( _subPathL )
 
+const decodeProps =
+  U.mapObjIndexed( decodeURIComponent )
+
 export const PathParams = ( { props, path } ) =>
   <div>
     <PathInput
       type="text"
       label="Path"
       value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
-    <PrettyStringify space="2" obj={ props } />
+    <PrettyStringify space="2" obj={ decodeProps( props ) } />
   </div>
