@@ -17,7 +17,7 @@ const QuerystringParam = ( { param } ) =>
     <td><button onClick={ () => param.remove() }>Remove</button></td>
   </tr>
 
-const makeUrl = ( params, path ) =>
+const makePath = ( params, path ) =>
 { const querystring =
     U.ifte( params
           , U.concat( '?'
@@ -55,8 +55,8 @@ export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
       </tbody>
     </table>
     Navigate to:&nbsp;
-    <Link href={ makeUrl( copy, path ) }>
-      { makeUrl( copy, path ) }
+    <Link href={ makePath( copy, path ) }>
+      { makePath( copy, path ) }
     </Link>
     { PrettyStringify( 2 )( params ) }
   </div>
