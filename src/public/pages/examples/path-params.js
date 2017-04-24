@@ -12,6 +12,7 @@ const subPathGetter = pagePathRoot =>
   U.pipe( U.replace( pagePathRoot, '' )
                    , decodeURIComponent
                    )
+
 const subPathSetter = pagePathRoot =>
   U.pipe( U.map( U.when( x => x !== '/'
                        , encodeURIComponent
@@ -34,5 +35,5 @@ export const PathParams = ( { props, path } ) =>
       type="text"
       label="Path"
       value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
-    { PrettyStringify( 2 )( props ) }
+    <PrettyStringify space="2" obj={ props } />
   </div>

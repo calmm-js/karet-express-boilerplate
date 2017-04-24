@@ -17,20 +17,20 @@ const QuerystringParam = ( { param } ) =>
     <td><button onClick={ () => param.remove() }>Remove</button></td>
   </tr>
 
-const makePath = ( params, path ) =>
-{ const querystring =
-    U.ifte( params
-          , U.concat( '?'
-                    , U.join( '&'
-                            , U.map( U.join( '=' )
-                                   , params
+const makePath = ( paramsPairs, path ) =>
+{ const makeQuerystring =
+    U.ifElse( U.isNil
+            , ''
+            , U.pipe( U.map( U.pipe( U.map( encodeURIComponent )
+                                   , U.join( '=' )
                                    )
-                            )
+                           )
+                    , U.join( '&' )
+                    , U.concat( '?' )
                     )
-          , ''
-          )
+            )
 
-  return U.string`${ path }${ querystring }`
+  return U.string`${ path }${ makeQuerystring( paramsPairs ) }`
 }
 
 export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
@@ -58,6 +58,6 @@ export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
     <Link href={ makePath( copy, path ) }>
       { makePath( copy, path ) }
     </Link>
-    { PrettyStringify( 2 )( params ) }
+    <PrettyStringify space="2" obj={ params } />
   </div>
 }
