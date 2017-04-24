@@ -29,11 +29,16 @@ const makeQuerystring =
                   )
           )
 
+const paramsPairs = params =>
+  U.view( L.iso( U.toPairs, U.fromPairs ), params )
+
+const newPathString = ( path, params ) =>
+  U.string`${ path }${ makeQuerystring( params ) }`
+
 export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
-{ const paramsPairs = U.view( L.iso( U.toPairs, U.fromPairs ), params )
-  return <div>
+  <div>
     <table>
-      { U.set( copy, paramsPairs ) }
+      { U.set( copy, paramsPairs( params ) ) }
       <thead>
         <tr>
           <td>Key</td>
@@ -51,9 +56,8 @@ export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
       </tbody>
     </table>
     Navigate to:&nbsp;
-    <Link href={ U.string`${ path }${ makeQuerystring( copy ) }` }>
-      { U.string`${ path }${ makeQuerystring( copy ) }` }
+    <Link href={ newPathString( path, copy ) }>
+      { newPathString( path, copy ) }
     </Link>
     <PrettyStringify space="2" obj={ params } />
   </div>
-}
