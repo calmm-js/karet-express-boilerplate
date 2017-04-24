@@ -17,21 +17,17 @@ const QuerystringParam = ( { param } ) =>
     <td><button onClick={ () => param.remove() }>Remove</button></td>
   </tr>
 
-const makePath = ( paramsPairs, path ) =>
-{ const makeQuerystring =
-    U.ifElse( U.isNil
-            , ''
-            , U.pipe( U.map( U.pipe( U.map( encodeURIComponent )
-                                   , U.join( '=' )
-                                   )
-                           )
-                    , U.join( '&' )
-                    , U.concat( '?' )
-                    )
-            )
-
-  return U.string`${ path }${ makeQuerystring( paramsPairs ) }`
-}
+const makeQuerystring =
+  U.ifElse( U.isNil
+          , _ => ''
+          , U.pipe( U.map( U.pipe( U.map( encodeURIComponent )
+                                 , U.join( '=' )
+                                 )
+                         )
+                  , U.join( '&' )
+                  , U.concat( '?' )
+                  )
+          )
 
 export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
 { const paramsPairs = U.view( L.iso( U.toPairs, U.fromPairs ), params )
@@ -55,8 +51,8 @@ export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
       </tbody>
     </table>
     Navigate to:&nbsp;
-    <Link href={ makePath( copy, path ) }>
-      { makePath( copy, path ) }
+    <Link href={ U.string`${ path }${ makeQuerystring( copy ) }` }>
+      { U.string`${ path }${ makeQuerystring( copy ) }` }
     </Link>
     <PrettyStringify space="2" obj={ params } />
   </div>
