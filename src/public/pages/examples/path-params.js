@@ -24,6 +24,9 @@ const subPathL = U.lift( _subPathL )
 
 export const PathParams = ( { props, path } ) =>
   <div>
-    <PathInput type="text" label="Path" value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
+    <PathInput
+      type="text"
+      label="Path"
+      value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
     { PrettyStringify( 2 )( props ) }
   </div>
