@@ -11,12 +11,26 @@ const addQuerystringParams = params =>
   params.modify( U.append( [ '', '' ]  ) )
 
 const QuerystringParam = ( { param } ) =>
-{ param.log( 'param' )
-  return <tr>
+  <tr>
     <td><TextInput value={ U.view( [ 0 ], param ) }/></td>
     <td><TextInput value={ U.view( [ 1 ], param ) }/></td>
     <td><button onClick={ () => param.remove() }>Remove</button></td>
   </tr>
+
+const makeUrl = ( params, path ) =>
+{ const querystring =
+    U.ifte( params
+          , U.concat( '?'
+                    , U.join( '&'
+                            , U.map( U.join( '=' )
+                                   , params
+                                   )
+                            )
+                    )
+          , ''
+          )
+
+  return U.string`${ path }${ querystring }`
 }
 
 export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
@@ -40,10 +54,10 @@ export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
         }
       </tbody>
     </table>
-    { PrettyStringify( 2 )( params ) }
     Navigate to:&nbsp;
-    <Link href={ U.string`${ path }?hello=everybody` }>
-      { U.string`${ path }?hello=everybody` }
+    <Link href={ makeUrl( copy, path ) }>
+      { makeUrl( copy, path ) }
     </Link>
+    { PrettyStringify( 2 )( params ) }
   </div>
 }
