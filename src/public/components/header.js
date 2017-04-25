@@ -7,12 +7,11 @@ export default () =>
     <div className="content">
       <div className="links">
         <Link href="/">Main</Link>
-        <Link href="/contacts">Contacts</Link>
-        <Link href="/another-page">Another page</Link>
-        <Link href="/form">Form</Link>
-        <Link href="/main/1234">Main with ID</Link>
-        <Link href="/meiosis">Meiosis</Link>
         <Link href="/company">Company</Link>
+        <Link href="/examples/keep/calmm/and/curry/on/?hello=world">Examples</Link>
+        <Link href="/contacts">Contacts</Link>
+        <Link href="/form">Form</Link>
+        <Link href="/meiosis">Meiosis</Link>
       </div>
     </div>
   </div>
