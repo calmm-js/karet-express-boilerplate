@@ -4,16 +4,16 @@ import React     from "karet"
 
 import Link from "../../components/link"
 
-import { TextInput }       from "../../components/text-input"
-import { PrettyStringify } from "../../components/pretty-stringify"
+import TextInput       from "../../components/text-input"
+import PrettyStringify from "../../components/pretty-stringify"
 
 const addQuerystringParams = params =>
   params.modify( U.append( [ '', '' ]  ) )
 
 const QuerystringParam = ( { param } ) =>
   <tr>
-    <td><TextInput value={ U.view( [ 0 ], param ) }/></td>
-    <td><TextInput value={ U.view( [ 1 ], param ) }/></td>
+    <td><TextInput value={ U.view( 0, param ) }/></td>
+    <td><TextInput value={ U.view( 1, param ) }/></td>
     <td><button onClick={ () => param.remove() }>Remove</button></td>
   </tr>
 
@@ -29,8 +29,7 @@ const makeQuerystring =
                   )
           )
 
-const paramsPairs = params =>
-  U.view( L.iso( U.toPairs, U.fromPairs ), params )
+const toFromPairsL = L.iso( U.toPairs, U.fromPairs )
 
 const newPathString = ( path, params ) =>
   U.string`${ path }${ makeQuerystring( params ) }`
@@ -38,7 +37,7 @@ const newPathString = ( path, params ) =>
 export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
   <div>
     <table>
-      { U.set( copy, paramsPairs( params ) ) }
+      { U.set( copy, U.view( toFromPairsL, params ) ) }
       <thead>
         <tr>
           <td>Key</td>
@@ -51,13 +50,15 @@ export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
       <tbody>
         { U.mapElems( ( param, i ) =>
                         <QuerystringParam key={ i } param={ param }/>
-                    )( copy )
+                      , copy
+                    )
         }
       </tbody>
     </table>
     Navigate to:&nbsp;
-    <Link href={ newPathString( path, copy ) }>
-      { newPathString( path, copy ) }
-    </Link>
-    <PrettyStringify space="2" obj={ params } />
+    { U.scope( ( href = newPathString( path, copy ) ) =>
+                 <Link href={ href }>{ href }</Link>
+             )
+    }
+    <PrettyStringify value={ params } />
   </div>

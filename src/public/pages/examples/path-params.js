@@ -2,8 +2,8 @@ import K, * as U from "karet.util"
 import * as L    from "partial.lenses"
 import React     from "karet"
 
-import { PathInput }       from "../../components/restricted-input"
-import { PrettyStringify } from "../../components/pretty-stringify"
+import { PathInput }   from "../../components/restricted-input"
+import PrettyStringify from "../../components/pretty-stringify"
 
 const getPagePathRoot =
   U.pipe( x => U.match( /(^\/[^/]+\/?).*/, x )[ 1 ] )
@@ -23,11 +23,12 @@ const subPathSetter = pagePathRoot =>
         , U.replace( pagePathRoot + '/', pagePathRoot )
         )
 
-const _subPathL = pagePathRoot =>
-  L.iso( subPathGetter( pagePathRoot )
-       , subPathSetter( pagePathRoot )
-       )
-const subPathL = U.lift( _subPathL )
+const subPathL = U.lift(
+  pagePathRoot =>
+    L.iso( subPathGetter( pagePathRoot )
+         , subPathSetter( pagePathRoot )
+         )
+)
 
 const decodeProps =
   U.mapObjIndexed( decodeURIComponent )
@@ -38,5 +39,5 @@ export const PathParams = ( { props, path } ) =>
       type="text"
       label="Path"
       value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
-    <PrettyStringify space="2" obj={ decodeProps( props ) } />
+    <PrettyStringify value={ decodeProps( props ) } />
   </div>
