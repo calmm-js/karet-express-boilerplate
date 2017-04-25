@@ -2,7 +2,7 @@ import * as Promise   from "bluebird"
 import * as R         from "ramda"
 import * as S         from "schemation"
 import * as fs        from "fs"
-import {native as pg} from "pg"
+import pg             from "pg"
 import {patch}        from "node-postgres-named"
 
 //

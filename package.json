@@ -50,7 +50,6 @@
     "partial.lenses": "^10.1.1",
     "path-to-regexp": "^1.7.0",
     "pg": "^6.1.5",
-    "pg-native": "^1.10.1",
     "postcss-cli": "^3.1.1",
     "postgrator": "^2.9.0",
     "ramda": "^0.23.0",
