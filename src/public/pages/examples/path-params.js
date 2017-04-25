@@ -35,9 +35,8 @@ const decodeProps =
 
 export const PathParams = ( { props, path } ) =>
   <div>
-    <PathInput
-      type="text"
-      label="Path"
-      value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
+    <PathInput type="text"
+               label="Path"
+               value={ U.view( subPathL( getPagePathRoot( path ) ), path ) }/>
     <PrettyStringify value={ decodeProps( props ) } />
   </div>

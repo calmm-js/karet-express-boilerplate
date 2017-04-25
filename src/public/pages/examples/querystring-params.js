@@ -18,7 +18,7 @@ const QuerystringParam = ( { param } ) =>
   </tr>
 
 const makeQuerystring =
-  U.ifElse( U.isNil
+  U.ifElse( U.equals( [] )
           , _ => ''
           , U.pipe( U.map( U.pipe( U.map( encodeURIComponent )
                                  , U.join( '=' )
