@@ -1,8 +1,7 @@
 import K, * as U from "karet.util"
 import React     from "karet"
 
-export const RestrictedInput = ({value, meta: {format, parse}, ...props}) => {
-  const edited = U.atom(undefined)
+export const RestrictedInput = ({value, meta: {format, parse}, edited = U.atom(), ...props}) => {
   const shown = K(value, edited, (value, edited) =>
                   edited === undefined ? format(value) : edited)
   const exit = e => {edited.set()
