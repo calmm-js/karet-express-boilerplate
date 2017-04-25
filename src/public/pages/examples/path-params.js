@@ -1,6 +1,6 @@
-import K, * as U from "karet.util"
-import * as L    from "partial.lenses"
-import React     from "karet"
+import * as U from "karet.util"
+import * as L from "partial.lenses"
+import React  from "karet"
 
 import { PathInput }   from "../../components/restricted-input"
 import PrettyStringify from "../../components/pretty-stringify"

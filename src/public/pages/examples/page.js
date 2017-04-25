@@ -1,6 +1,5 @@
-import K, * as U from "karet.util"
-import * as L    from "partial.lenses"
-import React     from "karet"
+import * as U from "karet.util"
+import React  from "karet"
 
 import { PathParams } from "./path-params"
 import { QuerystringParams } from "./querystring-params"

@@ -1,5 +1,5 @@
-import K, * as U from "karet.util"
-import React     from "karet"
+import * as U from "karet.util"
+import React  from "karet"
 
 export default
   ( { value, mount, onChange, ...props } ) =>
