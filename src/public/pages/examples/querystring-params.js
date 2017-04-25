@@ -34,31 +34,40 @@ const toFromPairsL = L.iso( U.toPairs, U.fromPairs )
 const newPathString = ( path, params ) =>
   U.string`${ path }${ makeQuerystring( params ) }`
 
-export const QuerystringParams = ( { params, path, copy = U.atom( [] ) } ) =>
-  <div>
-    <table>
-      { U.set( copy, U.view( toFromPairsL, params ) ) }
-      <thead>
-        <tr>
-          <td>Key</td>
-          <td>Value</td>
-          <td>
-            <button onClick={ () => addQuerystringParams( copy ) }>Add</button>
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        { U.mapElems( ( param, i ) =>
-                        <QuerystringParam key={ i } param={ param }/>
-                      , copy
-                    )
-        }
-      </tbody>
-    </table>
-    Navigate to:&nbsp;
-    { U.scope( ( href = newPathString( path, copy ) ) =>
-                 <Link href={ href }>{ href }</Link>
+export const QuerystringParams = ( { params, path, copy = U.atom() } ) =>
+{ const copied =
+    U.view( K( params
+             , params =>
+               [ L.defaults( params ), toFromPairsL, L.define( [] ) ]
              )
-    }
-    <PrettyStringify value={ params } />
-  </div>
+          , copy
+          )
+  return (
+    <div>
+      <table>
+        <thead>
+          <tr>
+            <td>Key</td>
+            <td>Value</td>
+            <td>
+              <button onClick={ () => addQuerystringParams( copied ) }>Add</button>
+            </td>
+          </tr>
+        </thead>
+        <tbody>
+          { U.mapElems( ( param, i ) =>
+                          <QuerystringParam key={ i } param={ param }/>
+                        , copied
+                      )
+          }
+        </tbody>
+      </table>
+      Navigate to:&nbsp;
+      { U.scope( ( href = newPathString( path, copied ) ) =>
+                   <Link href={ href }>{ href }</Link>
+               )
+      }
+      <PrettyStringify value={ params } />
+    </div>
+  )
+}
