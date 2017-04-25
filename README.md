@@ -1,3 +1,8 @@
+[![Gitter](https://img.shields.io/gitter/room/calmm-js/chat.js.svg)](https://gitter.im/calmm-js/chat)
+[![Build Status](https://travis-ci.org/calmm-js/karet-express-boilerplate.svg?branch=master)](https://travis-ci.org/calmm-js/karet-express-boilerplate)
+[![](https://david-dm.org/calmm-js/karet-express-boilerplate.svg)](https://david-dm.org/calmm-js/karet-express-boilerplate)
+[![](https://david-dm.org/calmm-js/karet-express-boilerplate/dev-status.svg)](https://david-dm.org/calmm-js/karet-express-boilerplate?type=dev)
+
 ## Quick start
 
 First install a new Node.js (6.x) if you don't have it already.
