@@ -56,6 +56,12 @@ function web(app) {
 }
 
 export default app => {
+  if (process.env.NODE_ENV !== "production") {
+    app.get("/test", (req, res) => {
+      res.send(JSON.stringify(req.query))
+    })
+  }
+
   formApp(app)
   web(app)
 }
