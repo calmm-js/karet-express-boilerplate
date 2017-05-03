@@ -9,9 +9,10 @@ export const ticks = ({interval = 1/30, duration}) =>
         U.lift(start => Math.min(duration, Date.now() - start) / duration),
         U.endWith(1))
 
-export const easeInOutCubic = U.lift1(t => t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1)
+export const easeInOutCubic =
+  /*#__PURE__*/U.lift1(t => t<.5 ? 4*t*t*t : (t-1)*(2*t-2)*(2*t-2)+1)
 
-export const lerp = U.lift((x0, x1, t) => x0 + (x1 - x0) * t)
+export const lerp = /*#__PURE__*/U.lift((x0, x1, t) => x0 + (x1 - x0) * t)
 
 export const transitionInOut = ({wrapperClass, transitionDuration, delayDuration}) =>
   U.pipe(U.foldPast((o, next) => ({next, prev: o.next}), {next: null}),

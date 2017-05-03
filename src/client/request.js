@@ -4,7 +4,7 @@ import * as R     from "ramda"
 
 import paramsI from "../shared/search-params"
 
-export const withParams = R.curry((base, params) =>
+export const withParams = /*#__PURE__*/R.curry((base, params) =>
   `${base}${L.getInverse(paramsI, params)}`)
 
 const home = typeof window === "undefined"
@@ -17,7 +17,7 @@ const onClient = typeof window === "undefined"
   ? fn => R.curryN(fn.length, () => Kefir.constant(undefined))
   : fn => fn
 
-export const xhrJSON = onClient(({
+export const xhrJSON = /*#__PURE__*/onClient(({
   method,
   url,
   body
@@ -59,9 +59,9 @@ export const xhrJSON = onClient(({
   return () => xhr.abort()
 }))
 
-export const getJSON = onClient(url =>
+export const getJSON = /*#__PURE__*/onClient(url =>
   xhrJSON({method: "GET", url}))
-export const putJSON = onClient(R.curry((url, body) =>
+export const putJSON = /*#__PURE__*/onClient(R.curry((url, body) =>
   xhrJSON({method: "PUT", url, body})))
-export const postJSON = onClient(R.curry((url, body) =>
+export const postJSON = /*#__PURE__*/onClient(R.curry((url, body) =>
   xhrJSON({method: "POST", url, body})))

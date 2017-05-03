@@ -34,7 +34,7 @@ const mkExec = sqlTemplatePromise => args =>
     })
   : Promise.resolve([]))
 
-const parseTemplate = R.pipe(
+const parseTemplate = /*#__PURE__*/R.pipe(
   R.split(";"),
   R.map(R.trim),
   R.filter(R.complement(R.equals(""))),
@@ -79,7 +79,7 @@ export function row0(result) {
     return null
   return toJSON(rows[0])
 }
-export const rows = pipeInProd(result => result.rows, toJSON)
+export const rows = /*#__PURE__*/pipeInProd(result => result.rows, toJSON)
 export const rowCount = result => ({rowCount: result.rowCount || 0})
 
 export const mkQuery = ({sql, inn, out, parse}) => {

@@ -8,13 +8,13 @@ const fromWindow = typeof window === "undefined"
   ? () => U.never
   : event => U.fromEvents(window, event, next).toProperty(next)
 
-export const scroll = fromWindow("scroll")
-export const touchmove = fromWindow("touchmove")
-export const popstate = fromWindow("popstate")
-export const resize = fromWindow("resize")
-export const orientationchange = fromWindow("orientationchange")
+export const scroll = /*#__PURE__*/fromWindow("scroll")
+export const touchmove = /*#__PURE__*/fromWindow("touchmove")
+export const popstate = /*#__PURE__*/fromWindow("popstate")
+export const resize = /*#__PURE__*/fromWindow("resize")
+export const orientationchange = /*#__PURE__*/fromWindow("orientationchange")
 
-export const dimensions = U.parallel([resize, orientationchange])
+export const dimensions = /*#__PURE__*/U.parallel([resize, orientationchange])
 
 //
 
