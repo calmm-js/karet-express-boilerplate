@@ -12,7 +12,7 @@
     "lint": "eslint .",
     "livereload:public": "livereload public",
     "migrate": "node ./scripts/migrate",
-    "prepare": "sh -c \"mkdir -p public/generated && node ./scripts/ramda-rollup-hack && npm run bundle && npm run test\"",
+    "prepare": "sh -c \"mkdir -p public/generated && ramda-rollup-hack && npm run bundle && npm run test\"",
     "start": "sh -c \"npm run migrate max & wait && node $NODE_OPTS src/server/start.js\"",
     "test": "sh -c  \"npm run lint && NO_USERAGENT=1 mocha --require ./test-helper.js -t 4000\"",
     "watch": "sh -c \"npm run watch:css & npm run watch:server & npm run watch:js & npm run livereload:public & wait\"",
@@ -73,6 +73,7 @@
     "livereload": "^0.6.2",
     "mocha": "^3.3.0",
     "nodemon": "^1.11.0",
+    "ramda-rollup-hack": "^0.23.0-alpha1",
     "watch-run": "^1.2.5",
     "zombie": "^5.0.5"
   },
