@@ -1,0 +1,47 @@
+#!/usr/bin/env node
+
+const fs = require("fs")
+const path = require("path")
+
+const ramdaBase = path.join("node_modules", "ramda")
+
+const esPathOf = path => path.replace(/\.js$/, '-es.js')
+const esSrcOf = src => src.replace(/$/, '-es')
+
+const packagePath = path.join(ramdaBase, "package.json")
+fs.writeFileSync(
+  packagePath,
+  fs.readFileSync(packagePath)
+    .toString()
+    .replace(/^( *)"main": "index\.js"/m,
+             '$1"module": "index-es.js", "main": "index.js"'))
+
+const indexPath = path.join(ramdaBase, "index.js")
+fs.writeFileSync(
+  esPathOf(indexPath),
+  fs.readFileSync(indexPath)
+    .toString()
+    .match(/(\w+): require\('([^']+)'\)/g)
+    .map(req =>
+         req.replace(/(\w+): require\('([^']+)'\)/, (_, name, src) =>
+                     `export {default as ${name}} from '${esSrcOf(src)}';`))
+    .join("\n"))
+
+const convertSrcsIn = base => fs.readdirSync(base).forEach(name => {
+  const srcPath = path.join(base, name)
+  if (fs.statSync(srcPath).isDirectory())
+    convertSrcsIn(srcPath)
+  else if (/\.js$/.test(srcPath) && !/-es\.js$/.test(srcPath))
+    fs.writeFileSync(
+      esPathOf(srcPath),
+      fs.readFileSync(srcPath)
+        .toString()
+        .replace(/^ *var +(\w+) *= *require\('([^']+)'\);/gm, (_, name, src) =>
+                 `import ${name} from '${esSrcOf(src)}';`)
+        .replace(/^ *module\.exports *= */m,
+                 'export default ')
+        .replace(/export default *(?!function)/,
+                 'export default /*#__PURE__*/'))
+})
+
+convertSrcsIn(path.join(ramdaBase, "src"))
