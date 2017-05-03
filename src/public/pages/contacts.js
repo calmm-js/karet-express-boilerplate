@@ -1,6 +1,6 @@
-import * as L from "partial.lenses"
-import * as U from "karet.util"
-import React  from "karet"
+import * as L     from "partial.lenses"
+import * as React from "karet"
+import * as U     from "karet.util"
 
 const TextInput = ({value}) =>
   <input type="text"

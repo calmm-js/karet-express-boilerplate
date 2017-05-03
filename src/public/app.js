@@ -1,6 +1,6 @@
-import * as U   from "karet.util"
-import React    from "karet"
-import ReactDOM from "react-dom/server"
+import * as React    from "karet"
+import * as ReactDOM from "react-dom/server"
+import * as U        from "karet.util"
 
 import env from "../shared/env"
 

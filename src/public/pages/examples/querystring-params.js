@@ -1,6 +1,6 @@
-import K, * as U from "karet.util"
-import * as L    from "partial.lenses"
-import React     from "karet"
+import * as L     from "partial.lenses"
+import * as React from "karet"
+import K, * as U  from "karet.util"
 
 import Link from "../../components/link"
 

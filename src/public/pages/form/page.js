@@ -1,6 +1,6 @@
 import * as Kefir from "kefir"
+import * as React from "karet"
 import * as U     from "karet.util"
-import React      from "karet"
 
 import * as RPC from "../../../client/rpc"
 

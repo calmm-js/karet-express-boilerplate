@@ -1,6 +1,6 @@
 import * as R     from "ramda"
+import * as React from "karet"
 import * as U     from "karet.util"
-import React      from "karet"
 import toRegex    from 'path-to-regexp'
 
 // TODO: Make it possible to add routes more than once?

@@ -1,5 +1,5 @@
-import * as U from "karet.util"
-import React  from "karet"
+import * as React from "karet"
+import * as U     from "karet.util"
 
 import { PathParams } from "./path-params"
 import { QuerystringParams } from "./querystring-params"

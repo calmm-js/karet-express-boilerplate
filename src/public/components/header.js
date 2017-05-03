@@ -1,4 +1,4 @@
-import React  from "karet"
+import * as React from "karet"
 
 import Link from "./link"
 

@@ -1,7 +1,7 @@
-import * as L from "partial.lenses"
-import * as R from "ramda"
-import * as U from "karet.util"
-import React  from "karet"
+import * as L     from "partial.lenses"
+import * as R     from "ramda"
+import * as React from "karet"
+import * as U     from "karet.util"
 
 const TextInput = ({mount, value, ...props}) =>
   <input ref={mount}
