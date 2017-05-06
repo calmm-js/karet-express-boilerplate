@@ -17,7 +17,7 @@ export default U.withContext(({
 }, {
   location
 }) => {
-  const onClick = href => e => {
+  const onClick = U.lift(href => e => {
     const internal = /^((\/[^?#]*)([?][^#]*)?)?([#].*)?$/.exec(href)
 
     if (internal) {
@@ -44,11 +44,11 @@ export default U.withContext(({
       }
     }
     onsite=1
-  }
+  })
 
   return <a href={href}
      ref={mount}
-     onClick={U.actions(outerOnClick, U.lift(onClick)(href))}
+     onClick={U.actions(outerOnClick, onClick(href))}
      className={U.string`${U.or(className, "")} ${U.ifte(isExt(href), "ext-link", "")}`}
      {...props}/>
 })
