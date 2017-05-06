@@ -46,9 +46,11 @@ export default U.withContext(({
     onsite=1
   })
 
-  return <a href={href}
-     ref={mount}
-     onClick={U.actions(outerOnClick, onClick(href))}
-     className={U.string`${U.or(className, "")} ${U.ifte(isExt(href), "ext-link", "")}`}
-     {...props}/>
+  return (
+    <a href={href}
+       ref={mount}
+       onClick={U.actions(outerOnClick, onClick(href))}
+       className={U.cns(className, U.ift(isExt(href), "ext-link"))}
+       {...props}/>
+  )
 })
