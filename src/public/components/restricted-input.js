@@ -21,7 +21,7 @@ export const RestrictedInput = ({value, meta: {format, parse}, edited = U.atom()
 
 export const number = {
   format: n => n.toString(),
-  parse: s => {
+  parse(s) {
     const n = parseFloat(s)
     return n.toString() === s ? n : undefined
   }
@@ -29,7 +29,7 @@ export const number = {
 
 export const path = {
   format: p => p,
-  parse: s => {
+  parse(s) {
     const p = s.replace( '//', '/' )
     return p === s ? p : undefined
   }
