@@ -11,7 +11,6 @@ export default () =>
         <Link href="/examples/keep/calmm/and/curry/on/?hello=world">Examples</Link>
         <Link href="/contacts">Contacts</Link>
         <Link href="/form">Form</Link>
-        <Link href="/meiosis">Meiosis</Link>
       </div>
     </div>
   </div>
