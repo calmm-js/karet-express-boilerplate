@@ -9,7 +9,6 @@ export default () =>
         <Link href="/">Main</Link>
         <Link href="/examples/keep/calmm/and/curry/on/?hello=world">Examples</Link>
         <Link href="/contacts">Contacts</Link>
-        <Link href="/form">Form</Link>
       </div>
     </div>
   </div>

@@ -4,8 +4,6 @@ import * as U        from "karet.util"
 
 import env from "../shared/env"
 
-import formApp from "./pages/form/app.js"
-
 import Page from "./components/page"
 
 import * as Meta  from "./meta"
@@ -62,6 +60,5 @@ export default app => {
     })
   }
 
-  formApp(app)
   web(app)
 }
