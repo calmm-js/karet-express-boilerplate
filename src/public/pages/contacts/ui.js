@@ -39,7 +39,7 @@ export function New() {
         W.location.modify(L.set("path", `/contacts/${id}`))
       return status
     })))
-  const io = U.isNil(execute(actions))
+  const io = U.equals(undefined, execute(actions))
 
   return (
     <div id="contact">

@@ -79,9 +79,9 @@ const pipeInProd = process.env.NODE_ENV === "production" ? R.identity : R.pipe
 
 export function row0(results) {
   const rows = L.get([L.last, "rows"], results)
-  if (rows.length !== 1)
-    return null
-  return toJSON(rows[0])
+  return L.get("length", rows) !== 1
+    ? null
+    : toJSON(rows[0])
 }
 export const rows = /*#__PURE__*/pipeInProd(L.get([L.last, "rows"]), toJSON)
 export const rowCount = results => ({

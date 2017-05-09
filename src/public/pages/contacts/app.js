@@ -23,16 +23,14 @@ export default app => {
           OFFSET $offset
            LIMIT $limit ;`,
     inn: S.windowMax(100),
-    out: {total: S.number,
-          offset: S.number,
-          data: [form_row]},
-    parse([count, data], {offset}) {
-      return {
-        total: parseInt(count.rows[0].total, 10),
-        offset: parseInt(offset, 10),
-        data: Db.toJSON(data.rows)
-      }
-    }
+    out: S.nullable({total: S.number,
+                     offset: S.number,
+                     data: [form_row]}),
+    parse: ([count, data], {offset}) => !count
+      ? null
+      : {total: parseInt(count.rows[0].total, 10),
+         offset: parseInt(offset, 10),
+         data: Db.toJSON(data.rows)}
   }))
 
   app.post("/contacts/data", MW.dbAPI({
@@ -66,8 +64,6 @@ export default app => {
     sql: `DELETE FROM contacts WHERE id = $id ;`,
     inn: {id},
     out: S.nullable({id}),
-    parse(results, {id}) {
-      return Db.rowCount(results) ? {id} : null
-    }
+    parse: (results, {id}) => Db.rowCount(results) ? {id} : null
   }))
 }
