@@ -59,6 +59,8 @@ export const xhrJSON = /*#__PURE__*/onClient(({
   return () => xhr.abort()
 }))
 
+export const deleteJSON = /*#__PURE__*/onClient(url =>
+  xhrJSON({method: "DELETE", url}))
 export const getJSON = /*#__PURE__*/onClient(url =>
   xhrJSON({method: "GET", url}))
 export const putJSON = /*#__PURE__*/onClient(R.curry((url, body) =>
