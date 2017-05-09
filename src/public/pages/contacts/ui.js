@@ -147,6 +147,8 @@ export function Browse() {
           </div>
         </div>
       </div>
+      {U.ift(U.equals(contactsQuery, null),
+             "NOTE: This example requires a DB.")}
     </div>
   )
 }
