@@ -4,7 +4,9 @@ import * as U from "karet.util"
 let unique = 0
 const next = () => ++unique
 
-const fromWindow = typeof window === "undefined"
+const isServer = typeof window === "undefined"
+
+const fromWindow = isServer
   ? () => U.never
   : event => U.fromEvents(window, event, next).toProperty(next)
 
@@ -19,7 +21,7 @@ export const dimensions = /*#__PURE__*/U.parallel([resize, orientationchange])
 //
 
 function getLocation() {
-  const l = window.location
+  const l = isServer ? {} : window.location
   return {path: l.pathname, search: l.search, hash: l.hash}
 }
 
