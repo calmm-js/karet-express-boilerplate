@@ -1,3 +1,4 @@
+import * as L         from "partial.lenses"
 import * as Promise   from "bluebird"
 import * as R         from "ramda"
 import * as S         from "schemation"
@@ -22,15 +23,18 @@ const mkExec = sqlTemplatePromise => args =>
   sqlTemplate
   ? prn(pool, pool.connect)().then(([clientIn, done]) => {
       const client = patch(clientIn)
+      const results = []
       const loop = i => result => {
+        if (void 0 !== result)
+          results.push(result)
         if (i < sqlTemplate.length) {
           return pry(client, client.query)(sqlTemplate[i], args).then(loop(i+1))
         } else {
           done()
-          return result
+          return results
         }
       }
-      return loop(0)({rows: []})
+      return loop(0)(undefined)
     })
   : Promise.resolve([]))
 
@@ -60,7 +64,7 @@ function format(v) {
   }
 }
 
-function toJSON(data) {
+export function toJSON(data) {
   if (data instanceof Date)
     return data.toISOString()
   else if (data instanceof Object)
@@ -73,20 +77,24 @@ const pipeInProd = process.env.NODE_ENV === "production" ? R.identity : R.pipe
 
 //
 
-export function row0(result) {
-  const rows = result.rows
+export function row0(results) {
+  const rows = L.get([L.last, "rows"], results)
   if (rows.length !== 1)
     return null
   return toJSON(rows[0])
 }
-export const rows = /*#__PURE__*/pipeInProd(result => result.rows, toJSON)
-export const rowCount = result => ({rowCount: result.rowCount || 0})
+export const rows = /*#__PURE__*/pipeInProd(L.get([L.last, "rows"]), toJSON)
+export const rowCount = results => ({
+  rowCount: L.get([L.last, "rowCount"], results) || 0
+})
 
 export const mkQuery = ({sql, inn, out, parse}) => {
   const template = pool ? parseTemplate(sql) : Promise.resolve(undefined)
   const exec = mkExec(template)
-  const method = i =>
-    exec(R.map(format, i)).then(pipeInProd(parse, S.validate(out)))
+  const method = inn =>
+    exec(R.map(format, inn)).then(pipeInProd(
+      results => parse(results, inn),
+      S.validate(out)))
   method.inn = inn
   method.out = out
   return method

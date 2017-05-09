@@ -1,5 +1,6 @@
-CREATE TABLE IF NOT EXISTS form
+CREATE TABLE IF NOT EXISTS contacts
   (       id BIGSERIAL                PRIMARY KEY
-  ,  answers JSONB                    NOT NULL
+  ,  contact JSONB                    NOT NULL
   ,  created TIMESTAMP WITH TIME ZONE NOT NULL
+  , modified TIMESTAMP WITH TIME ZONE NOT NULL
   );

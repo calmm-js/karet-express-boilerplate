@@ -1,8 +1,11 @@
 import * as S from "schemation"
 
+import * as Db from "./db"
+
 //
 
-export const jsonAPI = ({prop, msg}, schema, fn) => (req, res) => {
+export const jsonAPI = (schema, fn) => (req, res) => {
+  const params = {...req.query, ...req.body, ...req.params}
   async function onMatch(args) {
     let json
     try {
@@ -16,11 +19,8 @@ export const jsonAPI = ({prop, msg}, schema, fn) => (req, res) => {
   S.tryMatch(schema, onMatch, mismatch => {
     res.status(400)
     res.type("text/plain")
-    return res.send(`${msg}: ${mismatch}`)
-  })(req[prop])
+    return res.send(`Invalid or missing parameters: ${mismatch}`)
+  })(params)
 }
 
-export const query = {prop: "query", msg: "Invalid or missing query parameter"}
-export const body = {prop: "body", msg: "Invalid body"}
-
-export const dbAPI = (kind, op) => jsonAPI(kind, op.inn, op)
+export const dbAPI = op => jsonAPI(op.inn, Db.mkQuery(op))

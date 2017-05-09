@@ -2,6 +2,8 @@ import * as React    from "karet"
 import * as ReactDOM from "react-dom/server"
 import * as U        from "karet.util"
 
+import contactsApp from "./pages/contacts/app"
+
 import env from "../shared/env"
 
 import Page from "./components/page"
@@ -60,5 +62,6 @@ export default app => {
     })
   }
 
+  contactsApp(app)
   web(app)
 }

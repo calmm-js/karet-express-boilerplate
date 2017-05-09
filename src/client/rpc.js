@@ -3,16 +3,18 @@ import * as U from "karet.util"
 
 import * as Req from "./request"
 
-export const mkGet = entry => R.pipe(
-  Req.withParams(entry),
-  Req.withHome,
-  Req.getJSON,
-  U.flatMapErrors(error => {
-    return {error}}),
-  U.startWith(undefined))
+const mkNobody = R.curry((op, entry, params) => U.seq(
+  op(Req.withHome(Req.withParams(entry, params))),
+  U.flatMapErrors(error => ({error})),
+  U.startWith(undefined)))
 
-export const mkPost = entry => R.pipe(
-  Req.postJSON(Req.withHome(entry)),
-  U.flatMapErrors(error => {
-    return {error}}),
-  U.startWith(undefined))
+export const mkDelete = /*#__PURE__*/mkNobody(Req.deleteJSON)
+export const mkGet    = /*#__PURE__*/mkNobody(Req.getJSON)
+
+export const mkBody = R.curry((op, entry, params, body) => U.seq(
+  op(Req.withHome(Req.withParams(entry, params)), body),
+  U.flatMapErrors(error => ({error})),
+  U.startWith(undefined)))
+
+export const mkPost = /*#__PURE__*/mkBody(Req.postJSON)
+export const mkPut  = /*#__PURE__*/mkBody(Req.putJSON)

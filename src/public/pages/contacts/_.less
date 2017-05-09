@@ -1,0 +1,166 @@
+@keyframes load3 {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.make-loader(@cr, @cg, @cb, @br, @bg, @bb) {
+  font-size: 10px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  text-indent: -9999em;
+  border-radius: 50%;
+  background: rgb(@br, @bg, @bb);
+  background: linear-gradient(to right,
+                              rgb(@br, @bg, @bb) 10%,
+                              rgba(@cr, @cg, @cb, 0) 42%);
+  position: relative;
+  animation: load3 1s infinite linear;
+  transform: translateZ(0);
+
+  &:before {
+    width: 50%;
+    height: 50%;
+    background: rgb(@br, @bg, @bb);
+    border-radius: 100% 0 0 0;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: '';
+  }
+  &:after {
+    background: rgb(@cr, @cg, @cb);
+    width: 75%;
+    height: 75%;
+    border-radius: 50%;
+    content: '';
+    margin: auto;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+  }
+}
+
+#contact {
+  position: relative;
+
+  h2 { margin-left: 1em; }
+
+  .loader.contact {
+    .make-loader(255, 255, 255, 0, 0, 0);
+    position: absolute;
+    top: 4px;
+    left: 0px;
+  }
+
+  .saved:after {
+    content: "✓";
+    position: absolute;
+    top: 6px;
+    left: 2px;
+  }
+
+  .fields {
+    display: flex;
+    flex-direction: column;
+
+    > * {
+      margin: 5px;
+    }
+  }
+}
+
+#contacts {
+  height: 400px;
+
+  position: relative;
+
+  h2 { margin-left: 1em; }
+
+  .loader.contacts {
+    .make-loader(255, 255, 255, 0, 0, 0);
+    position: absolute;
+    top: 4px;
+    left: 2px;
+  }
+
+  .cell-widths {
+    div:nth-child(1) { max-width: 2em;
+                       min-width: 2em;
+                       button, a {
+                         padding: 0;
+                         text-align: center;
+                         width: 27px;
+                       }
+                       a {
+                         color: white;
+                         text-decoration: none;
+                       }
+                     }
+    div:nth-child(2) { width: 15em; }
+    div:nth-child(3) { width: 15em; }
+  }
+
+  .cell-common {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .contacts-table {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .head-wrapper {
+      position: relative;
+      .head {
+        display: flex;
+        width: 100%;
+        background-color: #333;
+        color: #FDFDFD;
+        div {
+          padding: 5px 5px;
+          .cell-common;
+        }
+        .cell-widths;
+      }
+    }
+
+    .body {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+
+      .rows {
+        display: block;
+        position: relative;
+        .visible {
+          position: absolute;
+          left: 0;
+          right: 0;
+          &.even .row:nth-child(odd) { background-color: #eee; }
+          &.odd .row:nth-child(even) { background-color: #eee; }
+          .row {
+            display: flex;
+            height: 28px;
+            width: 100%;
+            div {
+              padding: 0 5px;
+              .cell-common;
+            }
+            .cell-widths;
+          }
+        }
+      }
+    }
+  }
+}
