@@ -5,7 +5,7 @@
 
 ## Quick start
 
-First install a new Node.js (6.x) if you don't have it already.
+First install a new Node.js (6.x or 8.x) if you don't have it already.
 
 ```
 git clone git@github.com:calmm-js/karet-express-boilerplate.git
