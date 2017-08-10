@@ -37,18 +37,18 @@
     "body-parser": "^1.17.2",
     "compression": "^1.7.0",
     "cookie-parser": "^1.4.3",
-    "express": "^4.15.3",
+    "express": "^4.15.4",
     "karet": "^1.2.2",
-    "karet.util": "^0.13.0",
+    "karet.util": "^0.13.1",
     "kefir": "^3.7.3",
     "kefir.atom": "^5.3.4",
     "less": "^2.7.2",
     "less-plugin-autoprefix": "^1.5.1",
     "less-plugin-clean-css": "^1.5.1",
     "node-postgres-named": "^2.4.1",
-    "partial.lenses": "^11.14.1",
+    "partial.lenses": "^11.17.0",
     "path-to-regexp": "^1.7.0",
-    "pg": "^7.0.2",
+    "pg": "^7.1.0",
     "postcss-cli": "^4.1.0",
     "postgrator": "^2.10.0",
     "ramda": "^0.24.1",
@@ -56,7 +56,7 @@
     "react-dom": "^15.6.1",
     "rollup": "^0.45.2",
     "rollup-plugin-babel": "^2.7.1",
-    "rollup-plugin-commonjs": "^8.0.2",
+    "rollup-plugin-commonjs": "^8.1.0",
     "rollup-plugin-node-builtins": "^2.1.2",
     "rollup-plugin-node-globals": "^1.1.0",
     "rollup-plugin-node-resolve": "^3.0.0",
@@ -64,13 +64,13 @@
     "rollup-plugin-uglify": "^2.0.1",
     "rollup-watch": "^4.3.1",
     "schemation": "^0.2.2",
-    "serve-static": "^1.12.3",
+    "serve-static": "^1.12.4",
     "smoothscroll": "^0.3.0"
   },
   "devDependencies": {
-    "eslint": "^4.3.0",
+    "eslint": "^4.4.1",
     "eslint-plugin-babel": "^4.1.2",
-    "eslint-plugin-react": "^7.1.0",
+    "eslint-plugin-react": "^7.2.0",
     "livereload": "^0.6.2",
     "mocha": "^3.5.0",
     "nodemon": "^1.11.0",
@@ -79,6 +79,6 @@
     "zombie": "^5.0.7"
   },
   "engines": {
-    "node": "6.x"
+    "node": "8.x"
   }
 }
