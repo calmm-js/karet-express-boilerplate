@@ -13,8 +13,9 @@ const expandRoutes =
 
 const addRegexes =
   R.map( entry =>
-         { const regex = toRegex( entry.route )
-           regex.keys = regex.keys.map( R.prop( 'name' ) )
+         { const keys = []
+           const regex = toRegex( entry.route, keys )
+           regex.keys = keys.map( R.prop( 'name' ) )
            return { ...entry, regex }
          }
        )
