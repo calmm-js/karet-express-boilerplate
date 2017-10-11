@@ -132,7 +132,7 @@ export function Browse() {
                                   U.ifte(U.mathMod(offset, 2), "odd", "even"))}
                  style={{top: U.string`${U.multiply(offset, rowHeight)}px`}}>
               {U.seq(U.view("data", contacts),
-                     U.mapElemsWithIds(L.get("id"), (item, id) => {
+                     U.mapElemsWithIds("id", (item, id) => {
                        const contact = U.view("contact", item)
                        const href = `/contacts/${id}`
                        return (

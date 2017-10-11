@@ -16,9 +16,10 @@ export default {
       include: 'node_modules/**',
       namedExports: {
         "node_modules/react-dom/index.js": [
-          "render",
+          "hydrate",
+          "render"
         ],
-        "node_modules/react/react.js": [
+        "node_modules/react/index.js": [
           "Component",
           "createElement"
         ],
