@@ -7,7 +7,7 @@ import * as Db from './db'
 export const jsonAPI = (schema, fn) => (req, res) =>
   V.run(
     {
-      onAccept: async args => {
+      async onAccept(args) {
         let json
         try {
           json = await fn(args)
@@ -17,7 +17,7 @@ export const jsonAPI = (schema, fn) => (req, res) =>
         }
         res.json(json)
       },
-      onReject: mismatch => {
+      onReject(mismatch) {
         res.status(400)
         res.type('text/plain')
         return res.send(
