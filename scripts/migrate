@@ -1,6 +1,7 @@
 #!/usr/bin/env node
+'use strict'
 
-const postgrator = require("postgrator")
+const postgrator = require('postgrator')
 
 if (process.argv.length !== 3) {
   console.log("ERROR: Version required as argument, e.g. 'max' or '000'")
@@ -8,15 +9,17 @@ if (process.argv.length !== 3) {
 }
 
 const version = process.argv[2]
-console.log("NOTE: Migrating to version %j.", version)
+console.log('NOTE: Migrating to version %j.', version)
 
 const database_url = process.env.DATABASE_URL
 if (!database_url) {
-  console.log("NOTE: DATABASE_URL not set -> doing nothing.")
+  console.log('NOTE: DATABASE_URL not set -> doing nothing.')
   process.exit(0)
 }
 
-const params = /^[^:]*:\/\/([^:]*):([^:]*)@([^:]*):([0-9]*)\/(.*)$/.exec(database_url)
+const params = /^[^:]*:\/\/([^:]*):([^:]*)@([^:]*):([0-9]*)\/(.*)$/.exec(
+  database_url
+)
 if (!params) {
   console.log("ERROR: Couldn't parse DATABASE_URL.")
   process.exit(1)
@@ -25,9 +28,9 @@ if (!params) {
 const [, username, password, host, port, database] = params
 
 postgrator.setConfig({
-  migrationDirectory: "db",
+  migrationDirectory: 'db',
   schemaTable: 'schemaversion',
-  driver: "pg",
+  driver: 'pg',
   host,
   port,
   database,

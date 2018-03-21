@@ -1,6 +1,10 @@
 @keyframes load3 {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .make-loader(@cr, @cg, @cb, @br, @bg, @bb) {
@@ -11,9 +15,11 @@
   text-indent: -9999em;
   border-radius: 50%;
   background: rgb(@br, @bg, @bb);
-  background: linear-gradient(to right,
-                              rgb(@br, @bg, @bb) 10%,
-                              rgba(@cr, @cg, @cb, 0) 42%);
+  background: linear-gradient(
+    to right,
+    rgb(@br, @bg, @bb) 10%,
+    rgba(@cr, @cg, @cb, 0) 42%
+  );
   position: relative;
   animation: load3 1s infinite linear;
   transform: translateZ(0);
@@ -46,7 +52,9 @@
 #contact {
   position: relative;
 
-  h2 { margin-left: 1em; }
+  h2 {
+    margin-left: 1em;
+  }
 
   .loader.contact {
     .make-loader(255, 255, 255, 0, 0, 0);
@@ -56,7 +64,7 @@
   }
 
   .saved:after {
-    content: "✓";
+    content: '✓';
     position: absolute;
     top: 6px;
     left: 2px;
@@ -77,7 +85,9 @@
 
   position: relative;
 
-  h2 { margin-left: 1em; }
+  h2 {
+    margin-left: 1em;
+  }
 
   .loader.contacts {
     .make-loader(255, 255, 255, 0, 0, 0);
@@ -87,20 +97,26 @@
   }
 
   .cell-widths {
-    div:nth-child(1) { max-width: 2em;
-                       min-width: 2em;
-                       button, a {
-                         padding: 0;
-                         text-align: center;
-                         width: 27px;
-                       }
-                       a {
-                         color: white;
-                         text-decoration: none;
-                       }
-                     }
-    div:nth-child(2) { width: 15em; }
-    div:nth-child(3) { width: 15em; }
+    div:nth-child(1) {
+      max-width: 2em;
+      min-width: 2em;
+      button,
+      a {
+        padding: 0;
+        text-align: center;
+        width: 27px;
+      }
+      a {
+        color: white;
+        text-decoration: none;
+      }
+    }
+    div:nth-child(2) {
+      width: 15em;
+    }
+    div:nth-child(3) {
+      width: 15em;
+    }
   }
 
   .cell-common {
@@ -122,7 +138,7 @@
         display: flex;
         width: 100%;
         background-color: #333;
-        color: #FDFDFD;
+        color: #fdfdfd;
         div {
           padding: 5px 5px;
           .cell-common;
@@ -147,8 +163,12 @@
           position: absolute;
           left: 0;
           right: 0;
-          &.even .row:nth-child(odd) { background-color: #eee; }
-          &.odd .row:nth-child(even) { background-color: #eee; }
+          &.even .row:nth-child(odd) {
+            background-color: #eee;
+          }
+          &.odd .row:nth-child(even) {
+            background-color: #eee;
+          }
           .row {
             display: flex;
             height: 28px;

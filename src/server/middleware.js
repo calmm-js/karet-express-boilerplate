@@ -1,6 +1,6 @@
-import * as S from "schemation"
+import * as S from 'schemation'
 
-import * as Db from "./db"
+import * as Db from './db'
 
 //
 
@@ -18,7 +18,7 @@ export const jsonAPI = (schema, fn) => (req, res) => {
   }
   S.tryMatch(schema, onMatch, mismatch => {
     res.status(400)
-    res.type("text/plain")
+    res.type('text/plain')
     return res.send(`Invalid or missing parameters: ${mismatch}`)
   })(params)
 }

@@ -1,14 +1,15 @@
-import * as React from "karet"
+import * as React from 'karet'
 
-import NotFound   from "../pages/not-found"
+import NotFound from '../pages/not-found'
 
-import routes     from "../routes"
+import routes from '../routes'
 
-import Header     from "./header"
-import { Router } from "./router"
+import Header from './header'
+import {Router} from './router'
 
-export default () =>
+export default () => (
   <div>
-    <Header/>
-    <Router {...{routes, NotFound}}/>
+    <Header />
+    <Router {...{routes, NotFound}} />
   </div>
+)

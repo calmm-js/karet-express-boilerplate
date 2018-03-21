@@ -1,6 +1,6 @@
-require("babel-core/register")({
-  plugins: [ "transform-es2015-modules-commonjs" ]
+require('babel-core/register')({
+  plugins: ['transform-es2015-modules-commonjs']
 })
-require("babel-polyfill")
+require('babel-polyfill')
 
-require("./main").default(process.env.PORT || 3000)
+require('./main').default(process.env.PORT || 3000)
