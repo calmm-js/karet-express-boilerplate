@@ -20,14 +20,14 @@ function web(app) {
     <div id="env-data" data-env={JSON.stringify(env)} />
   )
 
-  app.get(Object.keys(routes), (req, res) => {
+  app.get(Object.keys(routes), ({path, url, headers: {host}}, res) => {
     const location = {
-      path: req.path,
-      search: req.url.slice(req.path.length),
+      path,
+      search: url.slice(path.length),
       hash: ''
     }
     const state = U.atom(State.initial)
-    const context = State.context(location, req.headers.host, state)
+    const context = State.context(location, host, state)
 
     // XXX Inject state here.
 
