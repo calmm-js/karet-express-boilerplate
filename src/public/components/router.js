@@ -17,7 +17,7 @@ const addRegexes = R.map(entry => {
 
 const sortStaticFirst = R.sortBy(({regex}) => (regex.keys.length === 0 ? 0 : 1))
 
-export const prepareRoutes = R.pipe(expandRoutes, addRegexes, sortStaticFirst)
+const prepareRoutes = R.pipe(expandRoutes, addRegexes, sortStaticFirst)
 // end routes initialization
 
 // route resolution
@@ -31,5 +31,5 @@ const router = U.lift((routes, NotFound, path) => {
 })
 
 export const Router = U.withContext(({routes, NotFound}, {path}) =>
-  U.fromKefir(router(routes, NotFound, path))
+  U.fromKefir(router(prepareRoutes(routes), NotFound, path))
 )

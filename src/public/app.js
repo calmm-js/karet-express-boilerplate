@@ -8,6 +8,7 @@ import env from '../shared/env'
 
 import Page from './components/page'
 
+import {routes} from './routes'
 import * as Meta from './meta'
 import * as State from './state'
 
@@ -19,7 +20,7 @@ function web(app) {
     <div id="env-data" data-env={JSON.stringify(env)} />
   )
 
-  app.get('/*', (req, res) => {
+  app.get(Object.keys(routes), (req, res) => {
     const location = {
       path: req.path,
       search: req.url.slice(req.path.length),
