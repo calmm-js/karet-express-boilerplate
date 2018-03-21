@@ -3,7 +3,7 @@ import * as React from 'karet'
 import * as U from 'karet.util'
 
 import {PathInput} from '../../components/restricted-input'
-import PrettyStringify from '../../components/pretty-stringify'
+import {PrettyStringify} from '../../components/pretty-stringify'
 
 const getPagePathRoot = U.pipe(x => U.match(/(^\/[^/]+\/?).*/, x)[1])
 

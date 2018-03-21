@@ -4,7 +4,7 @@ import * as U from 'karet.util'
 import {PathParams} from './path-params'
 import {QuerystringParams} from './querystring-params'
 
-export default U.withContext((props, {params, path}) => (
+export const Examples = U.withContext((props, {params, path}) => (
   <div>
     <h1>Examples</h1>
     <div>

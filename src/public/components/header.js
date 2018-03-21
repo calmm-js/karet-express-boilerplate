@@ -1,8 +1,8 @@
 import * as React from 'karet'
 
-import Link from './link'
+import {Link} from './link'
 
-export default () => (
+export const Header = () => (
   <div className="header">
     <div className="content">
       <div className="links">

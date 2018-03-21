@@ -12,7 +12,7 @@ let onsite
 
 const isExt = U.lift1Shallow(href => /^https?:\/\//.test(href))
 
-export default U.withContext(
+export const Link = U.withContext(
   (
     {href, onClick: outerOnClick, onThere, mount, className, ...props},
     {location}

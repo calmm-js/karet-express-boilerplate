@@ -1,7 +1,7 @@
 import * as React from 'karet'
 import * as U from 'karet.util'
 
-import Link from '../components/link'
+import {Link} from '../components/link'
 
 const libs = [
   ['Kefir', 'https://rpominov.github.io/kefir', 'Kefir'],
@@ -15,7 +15,7 @@ const libs = [
   ['U', 'https://github.com/calmm-js/karet.util#karet-util', 'Karet Util']
 ]
 
-export default () => (
+export const Main = () => (
   <div>
     <h1>Welcome!</h1>
     <p>

@@ -1,8 +1,8 @@
 import * as React from 'karet'
 
-import Link from '../components/link'
+import {Link} from '../components/link'
 
-export default () => (
+export const NotFound = () => (
   <div>
     <h1>Page not found!</h1>
     <Link href="/">Return to main page</Link>

@@ -7,7 +7,7 @@ import * as contactsApp from './pages/contacts/app'
 
 import env from '../shared/env'
 
-import Page from './components/page'
+import {Page} from './components/page'
 
 import {routes} from './routes'
 import * as Meta from './meta'

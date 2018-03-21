@@ -6,7 +6,7 @@ import * as U from 'karet.util'
 import * as RPC from '../../../client/rpc'
 import * as W from '../../../client/window'
 
-import Link from '../../components/link'
+import {Link} from '../../components/link'
 
 const rowHeight = 28
 
@@ -48,7 +48,7 @@ export function New() {
     <div id="contact">
       <h2>New contact</h2>
       {U.ift(io, <div className="loader contact" />)}
-      <ContactInput contact={contact} />
+      <ContactInput {...{contact}} />
       <button onClick={save}>Save</button>
     </div>
   )
@@ -78,7 +78,7 @@ export function Edit({id}) {
         <div className="loader contact" />,
         <div className="saved" />
       )}
-      <ContactInput contact={contact} />
+      <ContactInput {...{contact}} />
       {U.set(state, read)}
     </div>
   )

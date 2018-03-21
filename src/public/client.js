@@ -11,7 +11,7 @@ import {location} from '../client/window'
 import * as Request from '../client/request'
 import * as RPC from '../client/rpc'
 
-import Page from './components/page'
+import {Page} from './components/page'
 
 import * as Meta from './meta'
 import * as State from './state'

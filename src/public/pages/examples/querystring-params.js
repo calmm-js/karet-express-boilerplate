@@ -2,10 +2,10 @@ import * as L from 'partial.lenses'
 import * as React from 'karet'
 import K, * as U from 'karet.util'
 
-import Link from '../../components/link'
+import {Link} from '../../components/link'
 
-import TextInput from '../../components/text-input'
-import PrettyStringify from '../../components/pretty-stringify'
+import {TextInput} from '../../components/text-input'
+import {PrettyStringify} from '../../components/pretty-stringify'
 
 const addQuerystringParams = params => params.modify(U.append(['', '']))
 
