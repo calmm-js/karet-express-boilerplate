@@ -5,7 +5,7 @@ import express from 'express'
 import serveStatic from 'serve-static'
 import {resolve} from 'path'
 
-import publicApp from '../public/app'
+import * as publicApp from '../public/app'
 
 const isProd = process.env.NODE_ENV === 'production'
 
@@ -45,7 +45,7 @@ app.use(
 
 //
 
-publicApp(app)
+app.use(publicApp.router)
 
 //
 
