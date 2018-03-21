@@ -47,6 +47,7 @@
     "less-plugin-clean-css": "^1.5.1",
     "node-postgres-named": "^2.4.1",
     "partial.lenses": "^13.7.4",
+    "partial.lenses.validation": "^0.3.8",
     "path-to-regexp": "^2.2.0",
     "pg": "^7.4.1",
     "postcss-cli": "^5.0.0",
@@ -63,7 +64,6 @@
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-uglify": "^3.0.0",
     "rollup-watch": "^4.3.1",
-    "schemation": "^0.2.2",
     "serve-static": "^1.13.2",
     "smoothscroll": "^0.4.0"
   },

@@ -1,7 +1,7 @@
 import * as L from 'partial.lenses'
 import * as Promise from 'bluebird'
 import * as R from 'ramda'
-import * as S from 'schemation'
+import * as V from 'partial.lenses.validation'
 import * as fs from 'fs'
 import pg from 'pg'
 import {patch} from 'node-postgres-named'
@@ -93,7 +93,7 @@ export const mkQuery = ({sql, inn, out, parse}) => {
   const exec = mkExec(template)
   const method = inn =>
     exec(R.map(format, inn)).then(
-      pipeInProd(results => parse(results, inn), S.validate(out))
+      pipeInProd(results => parse(results, inn), V.validate(out))
     )
   method.inn = inn
   method.out = out

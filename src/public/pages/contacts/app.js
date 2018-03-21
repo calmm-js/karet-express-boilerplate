@@ -1,17 +1,21 @@
+import * as R from 'ramda'
 import express from 'express'
 
 import * as MW from '../../../server/middleware'
 import * as Db from '../../../server/db'
 
-import * as S from '../../../shared/schema'
+import * as V from '../../../shared/schema'
 
 //
 
-const id = S.nonNegDec
+const id = V.nonNegDec
 
-const contact = {}
+const contact = R.is(Object)
 
-const form_row = {id, contact, created: S.created, modified: S.modified}
+const form_row = V.keep(
+  'id',
+  V.props({id, contact, created: V.created, modified: V.modified})
+)
 
 //
 
@@ -27,12 +31,14 @@ router.get(
           ORDER BY id
           OFFSET $offset
            LIMIT $limit ;`,
-    inn: S.windowMax(100),
-    out: S.nullable({
-      total: S.number,
-      offset: S.number,
-      data: [form_row]
-    }),
+    inn: V.windowMax(100),
+    out: V.nullable(
+      V.props({
+        total: R.is(Number),
+        offset: R.is(Number),
+        data: V.arrayId(form_row)
+      })
+    ),
     parse: ([count, data], {offset}) =>
       !count
         ? null
@@ -51,8 +57,8 @@ router.post(
           INTO contacts (  contact, created, modified )
           VALUES        ( $contact,   now(),    now() )
           RETURNING * ;`,
-    inn: {contact},
-    out: S.nullable(form_row),
+    inn: V.props({contact}),
+    out: V.nullable(form_row),
     parse: Db.row0
   })
 )
@@ -61,8 +67,8 @@ router.get(
   '/contacts/data/:id',
   MW.dbAPI({
     sql: `SELECT * FROM contacts WHERE id = $id ;`,
-    inn: {id},
-    out: S.nullable(form_row),
+    inn: V.props({id}),
+    out: V.nullable(form_row),
     parse: Db.row0
   })
 )
@@ -74,8 +80,13 @@ router.put(
           SET contact = $contact, modified = now()
           WHERE id = $id
           RETURNING * ;`,
-    inn: {id, contact},
-    out: S.nullable(form_row),
+    inn: V.props({
+      id,
+      contact,
+      created: V.optional(V.created),
+      modified: V.optional(V.modified)
+    }),
+    out: V.nullable(form_row),
     parse: Db.row0
   })
 )
@@ -84,8 +95,8 @@ router.delete(
   '/contacts/data/:id',
   MW.dbAPI({
     sql: `DELETE FROM contacts WHERE id = $id ;`,
-    inn: {id},
-    out: S.nullable({id}),
+    inn: V.props({id}),
+    out: V.nullable(V.props({id})),
     parse: (results, {id}) => (Db.rowCount(results) ? {id} : null)
   })
 )
