@@ -40,7 +40,7 @@ const newPathString = (path, params) =>
 
 export const QuerystringParams = ({params, path, copy = U.atom()}) => {
   const copied = U.view(
-    K(params, params => [L.defaults(params), toFromPairsL, L.define([])]),
+    K(params, params => [L.defaults(params), toFromPairsL]),
     copy
   )
   return (
