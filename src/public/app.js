@@ -66,9 +66,3 @@ router.get(Object.keys(routes), ({path, url, headers: {host}}, res) => {
   </body>
 </html>`)
 })
-
-if (process.env.NODE_ENV !== 'production') {
-  router.get('/test', (req, res) => {
-    res.send(JSON.stringify(req.query))
-  })
-}
