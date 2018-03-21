@@ -4,6 +4,7 @@ import Main from './pages/main'
 
 export const routes = {
   '/': Main,
+  '/another-page': Main,
   '/examples/:pathParam1?/:pathParam2?/:pathParam3?/:splat*': ExamplesPage,
   '/contacts': Contacts.Browse,
   '/contacts/new': Contacts.New,

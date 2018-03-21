@@ -7,6 +7,7 @@ export default () => (
     <div className="content">
       <div className="links">
         <Link href="/">Main</Link>
+        <Link href="/another-page">Another page</Link>
         <Link href="/examples/keep/calmm/and/curry/on/?hello=world">
           Examples
         </Link>
