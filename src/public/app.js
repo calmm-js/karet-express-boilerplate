@@ -50,7 +50,7 @@ router.get(Object.keys(routes), ({path, url, headers: {host}}, res) => {
 
   res.setHeader('X-UA-Compatible', 'IE=edge')
   res.send(`<!DOCTYPE html>
-<html lang="fi">
+<html lang="en">
   <head>
     <link rel="icon" href="https://avatars1.githubusercontent.com/u/17234211">
     <link rel="stylesheet" href="/public/generated/bundle.css${bust}">
