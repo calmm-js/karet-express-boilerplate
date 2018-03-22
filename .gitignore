@@ -3,5 +3,6 @@
 *~
 .DS_Store
 .idea
+generated
 node_modules
 public/generated

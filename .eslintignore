@@ -1,2 +1,3 @@
-public/generated
 **/node_modules
+generated
+public/generated
