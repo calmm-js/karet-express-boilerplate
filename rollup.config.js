@@ -40,6 +40,7 @@ export default {
     process.env.NODE_ENV === 'production' &&
       uglify({
         compress: {
+          hoist_funs: true,
           passes: 3
         }
       })
