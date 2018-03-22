@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 'use strict'
 
-const postgrator = require('postgrator')
+const Postgrator = require('postgrator')
 
 if (process.argv.length !== 3) {
   console.log("ERROR: Version required as argument, e.g. 'max' or '000'")
@@ -27,7 +27,7 @@ if (!params) {
 
 const [, username, password, host, port, database] = params
 
-postgrator.setConfig({
+const postgrator = new Postgrator({
   migrationDirectory: 'db',
   schemaTable: 'schemaversion',
   driver: 'pg',
