@@ -7,10 +7,13 @@ const mkNobody = R.curry((op, entry, params) =>
   U.seq(
     U.template({entry, params}),
     U.flatMapLatest(({entry, params}) =>
-      op(Req.withHome(Req.withParams(entry, params)))
+      U.seq(
+        op(Req.withHome(Req.withParams(entry, params))),
+        U.startWith(undefined)
+      )
     ),
     U.flatMapErrors(error => ({error})),
-    U.startWith(undefined)
+    U.toProperty
   )
 )
 
@@ -21,10 +24,13 @@ export const mkBody = R.curry((op, entry, params, body) =>
   U.seq(
     U.template({entry, params, body}),
     U.flatMapLatest(({entry, params, body}) =>
-      op(Req.withHome(Req.withParams(entry, params)), body)
+      U.seq(
+        op(Req.withHome(Req.withParams(entry, params)), body),
+        U.startWith(undefined)
+      )
     ),
     U.flatMapErrors(error => ({error})),
-    U.startWith(undefined)
+    U.toProperty
   )
 )
 

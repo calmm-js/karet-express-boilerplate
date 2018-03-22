@@ -34,7 +34,7 @@ export function New() {
       U.seq(
         U.template({contact}),
         U.takeFirst(1),
-        U.flatMapLatest(RPC.mkPost('contacts/data', null)),
+        RPC.mkPost('contacts/data', null),
         U.lift(status => {
           const id = L.get('id', status)
           if (id) W.location.modify(L.set('path', `/contacts/${id}`))
@@ -60,12 +60,12 @@ export function Edit({id}) {
 
   const entry = U.string`contacts/data/${id}`
 
-  const read = U.toProperty(RPC.mkGet(entry, null))
+  const read = RPC.mkGet(entry, null)
   const autosave = U.seq(
     state,
     U.skipFirst(2),
     U.debounce(300),
-    U.flatMapLatest(RPC.mkPut(entry, null)),
+    RPC.mkPut(entry, null),
     U.startWith(0)
   )
   const io = U.contains(undefined, [read, autosave])
@@ -117,7 +117,8 @@ export function Browse() {
       U.view('id', actionsIO)
     ]),
     U.throttle(300),
-    U.flatMapLatest(L.get([0, RPC.mkGet('contacts/data')])),
+    U.view(0),
+    RPC.mkGet('contacts/data'),
     U.startWith(undefined)
   )
 
