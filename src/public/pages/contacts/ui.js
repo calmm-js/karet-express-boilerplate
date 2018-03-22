@@ -58,7 +58,7 @@ export function Edit({id}) {
   const state = U.variable()
   const contact = U.view(['contact', L.valueOr({name: '', phone: ''})], state)
 
-  const entry = `contacts/data/${id}`
+  const entry = U.string`contacts/data/${id}`
 
   const read = U.toProperty(RPC.mkGet(entry, null))
   const autosave = U.seq(

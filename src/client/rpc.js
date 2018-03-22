@@ -5,7 +5,10 @@ import * as Req from './request'
 
 const mkNobody = R.curry((op, entry, params) =>
   U.seq(
-    op(Req.withHome(Req.withParams(entry, params))),
+    U.template({entry, params}),
+    U.flatMapLatest(({entry, params}) =>
+      op(Req.withHome(Req.withParams(entry, params)))
+    ),
     U.flatMapErrors(error => ({error})),
     U.startWith(undefined)
   )
@@ -16,7 +19,10 @@ export const mkGet = /*#__PURE__*/ mkNobody(Req.getJSON)
 
 export const mkBody = R.curry((op, entry, params, body) =>
   U.seq(
-    op(Req.withHome(Req.withParams(entry, params)), body),
+    U.template({entry, params, body}),
+    U.flatMapLatest(({entry, params, body}) =>
+      op(Req.withHome(Req.withParams(entry, params)), body)
+    ),
     U.flatMapErrors(error => ({error})),
     U.startWith(undefined)
   )
