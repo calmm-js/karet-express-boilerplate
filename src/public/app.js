@@ -1,3 +1,4 @@
+import * as L from 'partial.lenses'
 import * as React from 'karet'
 import * as ReactDOM from 'react-dom/server'
 import * as U from 'karet.util'
@@ -25,14 +26,16 @@ export const router = express.Router()
 
 router.use(contactsApp.router)
 
-router.get(Object.keys(routes), ({path, url, headers: {host}}, res) => {
+const patterns = L.collect(L.flat('pattern'), routes)
+
+router.get(patterns, ({path, url, headers: {host}}, res) => {
   const location = {
     path,
     search: url.slice(path.length),
     hash: ''
   }
   const state = U.atom(State.initial)
-  const context = State.context(location, host, state)
+  const context = State.context(location, host, state, routes)
 
   // XXX Inject state here.
 

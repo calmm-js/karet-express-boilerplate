@@ -2,7 +2,7 @@ import * as Kefir from 'kefir'
 import * as L from 'kefir.partial.lenses'
 import * as R from 'ramda'
 
-import paramsI from '../shared/search-params'
+import {paramsI} from '../shared/search-params'
 
 export const withParams = /*#__PURE__*/ R.curry(
   (base, params) => `${base}${L.getInverse(paramsI, params)}`

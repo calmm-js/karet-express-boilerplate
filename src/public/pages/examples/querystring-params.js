@@ -7,18 +7,16 @@ import {Link} from '../../components/link'
 
 import {PrettyStringify} from '../../components/pretty-stringify'
 
-const addQuerystringParams = params => params.modify(R.append(['', '']))
-
 const QuerystringParam = ({param}) => (
   <tr>
     <td>
-      <U.Input value={U.view(0, param)} />
+      <U.Input spellCheck={false} value={U.view(0, param)} />
     </td>
     <td>
-      <U.Input value={U.view(1, param)} />
+      <U.Input spellCheck={false} value={U.view(1, param)} />
     </td>
     <td>
-      <button onClick={() => param.remove()}>Remove</button>
+      <button onClick={U.doRemove(param)}>Remove</button>
     </td>
   </tr>
 )
@@ -43,13 +41,17 @@ export const QuerystringParams = ({params, path, copy = U.atom()}) => {
   const href = newPathString(path, copied)
   return (
     <div>
+      <h2>Querystring params</h2>
+      <PrettyStringify value={params} />
       <table>
         <thead>
           <tr>
             <td>Key</td>
             <td>Value</td>
             <td>
-              <button onClick={() => addQuerystringParams(copied)}>Add</button>
+              <button onClick={U.doModify(copied, R.append(['', '']))}>
+                Add
+              </button>
             </td>
           </tr>
         </thead>
@@ -61,7 +63,6 @@ export const QuerystringParams = ({params, path, copy = U.atom()}) => {
         </tbody>
       </table>
       Navigate to: <Link href={href}>{href}</Link>
-      <PrettyStringify value={params} />
     </div>
   )
 }

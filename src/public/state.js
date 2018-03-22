@@ -1,6 +1,7 @@
 import * as U from 'karet.util'
 
-import paramsI from '../shared/search-params'
+import {paramsI} from '../shared/search-params'
+import {routingI} from '../shared/routing'
 
 import * as Meta from './meta'
 
@@ -11,11 +12,23 @@ export const initial = {
 
 const searchParamsL = ['search', paramsI]
 
-export const context = (location, host, state) => ({
-  location,
-  host,
-  params: U.view(searchParamsL, location),
-  path: U.view('path', location),
-  state,
-  meta: Meta.get(location, host)
-})
+export const context = (location, host, state, routes) => {
+  const path = U.view('path', location)
+  const params = U.view(searchParamsL, location)
+  const hash = U.view('hash', location)
+  const resolved = U.view(routingI(routes), path)
+  return {
+    location,
+    locationPrime: U.molecule({path, params, hash}),
+    hash,
+    host,
+    params,
+    path,
+    state,
+    meta: Meta.get(location, host),
+    routes,
+    resolved,
+    route: U.view('route', resolved),
+    matches: U.view('match', resolved)
+  }
+}

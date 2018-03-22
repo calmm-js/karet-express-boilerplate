@@ -1,18 +1,23 @@
+import * as L from 'partial.lenses'
 import * as React from 'karet'
+import * as U from 'karet.util'
 
 import {Link} from './link'
 
-export const Header = () => (
+export const Header = U.withContext((_, {routes}) => (
   <div className="header">
     <div className="content">
       <div className="links">
-        <Link href="/">Main</Link>
-        <Link href="/another-page">Another page</Link>
-        <Link href="/examples/keep/calmm/and/curry/on/?hello=world">
-          Examples
-        </Link>
-        <Link href="/contacts">Contacts</Link>
+        {L.collectAs(
+          ({name, href, pattern}, i) => (
+            <Link key={i} href={href || pattern}>
+              {name}
+            </Link>
+          ),
+          L.flat(L.when(L.get('name'))),
+          routes
+        )}
       </div>
     </div>
   </div>
-)
+))
