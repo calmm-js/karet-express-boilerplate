@@ -36,15 +36,17 @@ context.meta.changes().onValue(Meta.setToHead)
 //
 
 if (process.env.NODE_ENV !== 'production') {
-  window.Kefir = Kefir
-  window.L = L
-  window.R = R
-  window.RPC = RPC
-  window.React = React
-  window.Request = Request
-  window.U = U
-  window.context = context
-  window.state = state
+  Object.assign(window, {
+    Kefir,
+    L,
+    R,
+    RPC,
+    React,
+    Request,
+    U,
+    context,
+    state
+  })
 
   state.log('state')
 }
