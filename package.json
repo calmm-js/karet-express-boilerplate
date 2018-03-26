@@ -18,8 +18,8 @@
     "test": "sh -c  \"npm run lint && NO_USERAGENT=1 mocha --exit --require ./src/server/babel-setup.js -t 4000\"",
     "watch": "concurrently \"npm run watch:css\" \"npm run watch:server\" \"npm run watch:js\" \"npm run livereload:public\"",
     "watch:css": "sh -c \"npm run bundle:css:watch && watch-run -p 'src/**/*.less' 'npm run bundle:css:watch'\"",
-    "watch:js": "sh -c \"NODE_ENV=dev rollup -w -c --sourcemap inline -i src/public/client.js -f iife -o public/generated/bundle.js\"",
-    "watch:server": "sh -c \"NODE_ENV=dev nodemon -e js --watch src/server --watch 'src/**/app.js' src/server/start.js\""
+    "watch:js": "sh -c \"NODE_ENV=development rollup -w -c --sourcemap inline -i src/public/client.js -f iife -o public/generated/bundle.js\"",
+    "watch:server": "sh -c \"NODE_ENV=development nodemon -e js --watch src/server --watch 'src/**/app.js' src/server/start.js\""
   },
   "license": "MIT",
   "dependencies": {
