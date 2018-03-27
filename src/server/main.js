@@ -5,6 +5,8 @@ import express from 'express'
 import serveStatic from 'serve-static'
 import {resolve} from 'path'
 
+import * as Console from './console'
+
 import * as publicApp from '../public/app'
 
 const isProd = process.env.NODE_ENV === 'production'
@@ -50,7 +52,7 @@ app.use(publicApp.router)
 //
 
 app.use((err, req, res, next) => {
-  console.error(err)
+  Console.error(err)
   if (res.headersSent) {
     next(err)
   } else {
@@ -64,7 +66,7 @@ app.use((err, req, res, next) => {
 
 export default (port, cb) => {
   const server = app.listen(port, () => {
-    console.log(`Server listening at port ${server.address().port}`)
+    Console.log(`Server listening at port ${server.address().port}`)
     cb && cb()
   })
 }

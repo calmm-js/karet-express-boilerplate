@@ -6,6 +6,7 @@ const baseUrl = 'http://localhost:3100/'
 
 main(3100)
 
+// eslint-disable-next-line no-console
 console.log('Testing against ', baseUrl + '\n')
 
 describe('Main page', () => {

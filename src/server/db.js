@@ -6,6 +6,8 @@ import * as fs from 'fs'
 import pg from 'pg'
 import {patch} from 'node-postgres-named'
 
+import * as Console from './console'
+
 //
 
 const pry = (context, fn) => Promise.promisify(fn, {context})
@@ -16,7 +18,7 @@ const readFile = (...args) =>
 
 const pool = process.env.DATABASE_URL
   ? new pg.Pool({connectionString: process.env.DATABASE_URL})
-  : console.log(
+  : Console.log(
       'DATABASE_URL env var not defined.  DB ops will be silently ignored.'
     )
 
