@@ -1,13 +1,14 @@
-import * as L from 'partial.lenses'
+import * as L from 'kefir.partial.lenses'
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
-import K, * as U from 'karet.util'
+import * as U from 'karet.util'
 
 import {Link} from '../../components/link'
 
 import {TextInput} from '../../components/text-input'
 import {PrettyStringify} from '../../components/pretty-stringify'
 
-const addQuerystringParams = params => params.modify(U.append(['', '']))
+const addQuerystringParams = params => params.modify(R.append(['', '']))
 
 const QuerystringParam = ({param}) => (
   <tr>
@@ -23,26 +24,24 @@ const QuerystringParam = ({param}) => (
   </tr>
 )
 
-const makeQuerystring = U.ifElse(
-  U.equals([]),
-  _ => '',
-  U.pipe(
-    U.map(U.pipe(U.map(encodeURIComponent), U.join('='))),
-    U.join('&'),
-    U.concat('?')
+const makeQuerystring = R.ifElse(
+  R.equals([]),
+  R.always(''),
+  R.pipe(
+    R.map(R.pipe(R.map(encodeURIComponent), R.join('='))),
+    R.join('&'),
+    R.concat('?')
   )
 )
 
-const toFromPairsL = L.iso(U.toPairs, U.fromPairs)
+const pairsI = L.iso(R.toPairs, R.fromPairs)
 
 const newPathString = (path, params) =>
   U.string`${path}${makeQuerystring(params)}`
 
 export const QuerystringParams = ({params, path, copy = U.atom()}) => {
-  const copied = U.view(
-    K(params, params => [L.defaults(params), toFromPairsL]),
-    copy
-  )
+  const copied = U.view([L.defaults(params), pairsI], copy)
+  const href = newPathString(path, copied)
   return (
     <div>
       <table>
@@ -62,10 +61,7 @@ export const QuerystringParams = ({params, path, copy = U.atom()}) => {
           )}
         </tbody>
       </table>
-      Navigate to:&nbsp;
-      {U.scope((href = newPathString(path, copied)) => (
-        <Link href={href}>{href}</Link>
-      ))}
+      Navigate to: <Link href={href}>{href}</Link>
       <PrettyStringify value={params} />
     </div>
   )

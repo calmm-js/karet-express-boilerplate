@@ -1,6 +1,6 @@
 import * as Kefir from 'kefir'
-import * as L from 'partial.lenses'
-import * as R from 'ramda'
+import * as L from 'kefir.partial.lenses'
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as ReactDOM from 'react-dom'
 import * as U from 'karet.util'

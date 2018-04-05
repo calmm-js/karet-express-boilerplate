@@ -1,15 +1,16 @@
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
 
 export function RestrictedInput({value, meta, edited = U.atom(), ...props}) {
   const format = U.lift(meta.format)
   const parse = U.lift(meta.parse)
-  const shown = U.ifte(U.isNil(edited), format(value), edited)
+  const shown = U.ifte(R.isNil(edited), format(value), edited)
   function exit(e) {
     edited.set()
     e.target.blur()
   }
-  const validity = U.ifte(U.isNil(parse(shown)), 'invalid', 'valid')
+  const validity = U.ifte(R.isNil(parse(shown)), 'invalid', 'valid')
   function onChange({target: {value: input}}) {
     const result = parse(input)
     if (result !== undefined)

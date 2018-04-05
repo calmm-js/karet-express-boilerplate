@@ -1,5 +1,5 @@
 import * as Kefir from 'kefir'
-import * as L from 'partial.lenses'
+import * as L from 'kefir.partial.lenses'
 import * as R from 'ramda'
 
 import paramsI from '../shared/search-params'

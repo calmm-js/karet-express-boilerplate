@@ -1,5 +1,5 @@
-import * as L from 'partial.lenses'
-import * as R from 'ramda'
+import * as L from 'kefir.partial.lenses'
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
 import toRegex from 'path-to-regexp'

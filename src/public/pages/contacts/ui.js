@@ -1,5 +1,6 @@
-import * as L from 'partial.lenses'
-import * as R from 'ramda'
+import * as L from 'kefir.partial.lenses'
+import {pipe} from 'ramda'
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
 
@@ -10,7 +11,7 @@ import {Link} from '../../components/link'
 
 const rowHeight = 28
 
-const execute = R.pipe(U.flatMapSerial(U.identity), U.startWith({}))
+const execute = pipe(U.flatMapSerial(R.identity), U.startWith({}))
 
 const LabeledTextInput = ({value, label}) => (
   <label>
@@ -42,7 +43,7 @@ export function New() {
         })
       )
     )
-  const io = U.equals(undefined, execute(actions))
+  const io = R.equals(undefined, execute(actions))
 
   return (
     <div id="contact">
@@ -68,7 +69,7 @@ export function Edit({id}) {
     RPC.mkPut(entry, null),
     U.startWith(0)
   )
-  const io = U.contains(undefined, [read, autosave])
+  const io = R.contains(undefined, [read, autosave])
 
   return (
     <div id="contact">
@@ -93,7 +94,7 @@ export function Browse() {
       bodyElem,
       W.dimensions,
       U.takeUntilBy(
-        U.skipUnless(U.identity, U.lazy(() => limit)),
+        U.skipUnless(R.identity, U.lazy(() => limit)),
         U.interval(100, 0)
       )
     ]),
@@ -111,18 +112,18 @@ export function Browse() {
   const contactsQuery = U.seq(
     U.template([
       {
-        offset: U.floor(U.divide(scrollTop, rowHeight)),
+        offset: U.floor(R.divide(scrollTop, rowHeight)),
         limit: U.skipUnless(R.identity, limit)
       },
-      U.view('id', actionsIO)
+      L.get('id', actionsIO)
     ]),
     U.throttle(300),
-    U.view(0),
+    L.get(0),
     RPC.mkGet('contacts/data'),
     U.startWith(undefined)
   )
 
-  const io = U.contains(undefined, [actionsIO, contactsQuery])
+  const io = R.contains(undefined, [actionsIO, contactsQuery])
 
   const contacts = U.skipUnless(L.get('data'), contactsQuery)
 
@@ -149,13 +150,13 @@ export function Browse() {
           onScroll={U.getProps({scrollTop})}>
           <div
             className="rows"
-            style={{minHeight: U.string`${U.multiply(total, rowHeight)}px`}}>
+            style={{minHeight: U.string`${R.multiply(total, rowHeight)}px`}}>
             <div
               className={U.cns(
                 'visible',
-                U.ifte(U.mathMod(offset, 2), 'odd', 'even')
+                U.ifte(R.mathMod(offset, 2), 'odd', 'even')
               )}
-              style={{top: U.string`${U.multiply(offset, rowHeight)}px`}}>
+              style={{top: U.string`${R.multiply(offset, rowHeight)}px`}}>
               {U.seq(
                 U.view('data', contacts),
                 U.mapElemsWithIds('id', (item, id) => {
@@ -181,7 +182,7 @@ export function Browse() {
         </div>
       </div>
       {U.ift(
-        U.equals(contactsQuery, null),
+        R.equals(contactsQuery, null),
         'NOTE: This example requires a DB.'
       )}
     </div>

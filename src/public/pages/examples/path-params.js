@@ -1,28 +1,29 @@
-import * as L from 'partial.lenses'
+import * as L from 'kefir.partial.lenses'
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
 
 import {PathInput} from '../../components/restricted-input'
 import {PrettyStringify} from '../../components/pretty-stringify'
 
-const getPagePathRoot = U.pipe(x => U.match(/(^\/[^/]+\/?).*/, x)[1])
+const getPagePathRoot = R.pipe(x => R.match(/(^\/[^/]+\/?).*/, x)[1])
 
 const subPathGetter = pagePathRoot =>
-  U.pipe(U.replace(pagePathRoot, ''), decodeURIComponent)
+  R.pipe(R.replace(pagePathRoot, ''), decodeURIComponent)
 
 const subPathSetter = pagePathRoot =>
-  U.pipe(
-    U.map(U.when(x => x !== '/', encodeURIComponent)),
-    U.join(''),
-    U.concat(pagePathRoot),
-    U.replace(pagePathRoot + '/', pagePathRoot)
+  R.pipe(
+    R.map(R.when(x => x !== '/', encodeURIComponent)),
+    R.join(''),
+    R.concat(pagePathRoot),
+    R.replace(pagePathRoot + '/', pagePathRoot)
   )
 
 const subPathL = U.lift(pagePathRoot =>
   L.iso(subPathGetter(pagePathRoot), subPathSetter(pagePathRoot))
 )
 
-const decodeProps = U.mapObjIndexed(decodeURIComponent)
+const decodeProps = R.mapObjIndexed(decodeURIComponent)
 
 export const PathParams = ({props, path}) => (
   <div>

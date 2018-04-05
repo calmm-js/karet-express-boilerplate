@@ -1,3 +1,4 @@
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
 
@@ -53,9 +54,9 @@ export const Main = () => (
     <p>In development mode this sample exposes a number of libraries</p>
     <table>
       <tbody>
-        {U.seq(
+        {U.thru(
           libs,
-          U.map(([v, l, n]) => (
+          R.map(([v, l, n]) => (
             <tr key={v}>
               <td>
                 <code>{v}</code>
