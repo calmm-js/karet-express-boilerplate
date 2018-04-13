@@ -16,7 +16,11 @@ export default {
       include: 'node_modules/**',
       namedExports: {
         'node_modules/react-dom/index.js': ['hydrate', 'render'],
-        'node_modules/react/index.js': ['Component', 'createElement'],
+        'node_modules/react/index.js': [
+          'Component',
+          'Fragment',
+          'createElement'
+        ],
         'node_modules/kefir/dist/kefir.js': [
           'Observable',
           'Stream',
