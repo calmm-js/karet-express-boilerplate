@@ -28,6 +28,8 @@ const router = U.lift((routes, NotFound, path) => {
   return <NotFound />
 })
 
-export const Router = U.withContext(({routes, NotFound}, {path}) =>
-  U.fromKefir(router(prepareRoutes(routes), NotFound, path))
-)
+export const Router = U.withContext(({routes, NotFound}, {path}) => (
+  <React.Fragment>
+    {router(prepareRoutes(routes), NotFound, path)}
+  </React.Fragment>
+))
