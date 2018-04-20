@@ -3,14 +3,14 @@ import * as React from 'karet'
 import * as U from 'karet.util'
 
 export function RestrictedInput({value, meta, edited = U.atom(), ...props}) {
-  const format = U.lift(meta.format)
-  const parse = U.lift(meta.parse)
-  const shown = U.ifte(R.isNil(edited), format(value), edited)
+  const format = U.liftRec(meta.format)
+  const parse = U.liftRec(meta.parse)
+  const shown = U.ifElse(R.isNil(edited), format(value), edited)
   function exit(e) {
     edited.set()
     e.target.blur()
   }
-  const validity = U.ifte(R.isNil(parse(shown)), 'invalid', 'valid')
+  const validity = U.ifElse(R.isNil(parse(shown)), 'invalid', 'valid')
   function onChange({target: {value: input}}) {
     const result = parse(input)
     if (result !== undefined)

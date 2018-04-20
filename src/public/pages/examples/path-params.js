@@ -19,9 +19,8 @@ const subPathSetter = pagePathRoot =>
     R.replace(pagePathRoot + '/', pagePathRoot)
   )
 
-const subPathL = U.lift(pagePathRoot =>
+const subPathL = pagePathRoot =>
   L.iso(subPathGetter(pagePathRoot), subPathSetter(pagePathRoot))
-)
 
 const decodeProps = R.mapObjIndexed(decodeURIComponent)
 

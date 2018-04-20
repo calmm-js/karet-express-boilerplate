@@ -19,7 +19,8 @@ export default {
         'node_modules/react/index.js': [
           'Component',
           'Fragment',
-          'createElement'
+          'createElement',
+          'forwardRef'
         ],
         'node_modules/kefir/dist/kefir.js': [
           'Observable',

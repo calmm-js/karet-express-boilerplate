@@ -1,3 +1,4 @@
+import * as R from 'kefir.ramda'
 import * as U from 'karet.util'
 import React from 'karet'
 
@@ -7,15 +8,15 @@ export const ticks = ({interval = 1 / 30, duration}) =>
     U.takeUntilBy(U.later(duration, 0)),
     U.foldPast(start => start || Date.now(), 0),
     U.skipFirst(1),
-    U.lift(start => Math.min(duration, Date.now() - start) / duration),
+    U.liftRec(start => Math.min(duration, Date.now() - start) / duration),
     U.endWith(1)
   )
 
-export const easeInOutCubic = /*#__PURE__*/ U.lift1(
+export const easeInOutCubic = /*#__PURE__*/ U.liftRec(
   t => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1)
 )
 
-export const lerp = /*#__PURE__*/ U.lift((x0, x1, t) => x0 + (x1 - x0) * t)
+export const lerp = /*#__PURE__*/ R.curry((x0, x1, t) => x0 + (x1 - x0) * t)
 
 export const transitionInOut = ({
   wrapperClass,
@@ -55,7 +56,7 @@ export const transitionMaxHeight = ({content, show, transitionPeriod}) => {
     U.seq(
       show,
       U.takeFirst(1),
-      U.lift(s => (s ? {} : {overflowY, maxHeight: '0px'}))
+      U.liftRec(s => (s ? {} : {overflowY, maxHeight: '0px'}))
     ),
     U.seq(
       show,

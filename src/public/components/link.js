@@ -1,3 +1,4 @@
+import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
 
@@ -10,14 +11,14 @@ function special(e) {
 
 let onsite
 
-const isExt = U.lift1Shallow(href => /^https?:\/\//.test(href))
+const isExt = R.test(/^https?:\/\//)
 
 export const Link = U.withContext(
   (
     {href, onClick: outerOnClick, onThere, mount, className, ...props},
     {location}
   ) => {
-    const onClick = U.lift(href => e => {
+    const onClick = U.liftRec(href => e => {
       const internal = /^((\/[^?#]*)([?][^#]*)?)?([#].*)?$/.exec(href)
 
       if (internal) {
@@ -48,7 +49,7 @@ export const Link = U.withContext(
         href={href}
         ref={mount}
         onClick={U.actions(outerOnClick, onClick(href))}
-        className={U.cns(className, U.ift(isExt(href), 'ext-link'))}
+        className={U.cns(className, U.when(isExt(href), 'ext-link'))}
         {...props}
       />
     )

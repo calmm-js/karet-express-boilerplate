@@ -19,7 +19,7 @@ const sortStaticFirst = R.sortBy(({keys}) => (keys.length === 1 ? 0 : 1))
 
 const prepareRoutes = R.o(sortStaticFirst, expandRoutes)
 
-const router = U.lift((routes, NotFound, path) => {
+const router = U.liftRec((routes, NotFound, path) => {
   for (let i = 0; i < routes.length; ++i) {
     const {Component, keys, regex} = routes[i]
     const match = regex.exec(path)

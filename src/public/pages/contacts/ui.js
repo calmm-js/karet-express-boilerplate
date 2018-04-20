@@ -36,10 +36,9 @@ export function New() {
         U.template({contact}),
         U.takeFirst(1),
         RPC.mkPost('contacts/data', null),
-        U.lift(status => {
+        U.tapPartial(status => {
           const id = L.get('id', status)
           if (id) W.location.modify(L.set('path', `/contacts/${id}`))
-          return status
         })
       )
     )
@@ -48,7 +47,7 @@ export function New() {
   return (
     <div id="contact">
       <h2>New contact</h2>
-      {U.ift(io, <div className="loader contact" />)}
+      {U.when(io, <div className="loader contact" />)}
       <ContactInput {...{contact}} />
       <button onClick={save}>Save</button>
     </div>
@@ -74,7 +73,7 @@ export function Edit({id}) {
   return (
     <div id="contact">
       <h2>Edit contact</h2>
-      {U.ifte(
+      {U.ifElse(
         io,
         <div className="loader contact" />,
         <div className="saved" />
@@ -98,7 +97,7 @@ export function Browse() {
         U.interval(100, 0)
       )
     ]),
-    U.lift(([e]) =>
+    U.liftRec(([e]) =>
       Math.trunc((e.getBoundingClientRect().height + rowHeight - 1) / rowHeight)
     ),
     U.startWith(0)
@@ -133,7 +132,7 @@ export function Browse() {
   return (
     <div id="contacts">
       <h2>Contacts</h2>
-      {U.ift(io, <div className="loader contacts" />)}
+      {U.when(io, <div className="loader contacts" />)}
       <div className="contacts-table">
         <div className="head-wrapper">
           <div className="head">
@@ -154,7 +153,7 @@ export function Browse() {
             <div
               className={U.cns(
                 'visible',
-                U.ifte(R.mathMod(offset, 2), 'odd', 'even')
+                U.ifElse(R.mathMod(offset, 2), 'odd', 'even')
               )}
               style={{top: U.string`${R.multiply(offset, rowHeight)}px`}}>
               {U.seq(
@@ -181,7 +180,7 @@ export function Browse() {
           </div>
         </div>
       </div>
-      {U.ift(
+      {U.when(
         R.equals(contactsQuery, null),
         'NOTE: This example requires a DB.'
       )}
