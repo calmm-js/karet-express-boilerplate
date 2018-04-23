@@ -4,10 +4,7 @@ import * as U from 'karet.util'
 
 import scroll from '../../client/scroll'
 
-function special(e) {
-  e.preventDefault()
-  e.stopPropagation()
-}
+const special = U.actions(U.preventDefault, U.stopPropagation)
 
 let onsite
 

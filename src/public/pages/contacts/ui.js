@@ -1,5 +1,4 @@
 import * as L from 'kefir.partial.lenses'
-import {pipe} from 'ramda'
 import * as R from 'kefir.ramda'
 import * as React from 'karet'
 import * as U from 'karet.util'
@@ -11,7 +10,7 @@ import {Link} from '../../components/link'
 
 const rowHeight = 28
 
-const execute = pipe(U.flatMapSerial(R.identity), U.startWith({}))
+const execute = U.through(U.flatMapSerial(R.identity), U.startWith({}))
 
 const LabeledTextInput = ({value, label}) => (
   <label>
