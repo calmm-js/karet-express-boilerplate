@@ -17,8 +17,10 @@ export default {
       namedExports: {
         'node_modules/react-dom/index.js': ['hydrate', 'render'],
         'node_modules/react/index.js': [
+          'Children',
           'Component',
           'Fragment',
+          'createContext',
           'createElement',
           'forwardRef'
         ],
