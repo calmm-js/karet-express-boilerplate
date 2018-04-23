@@ -3,7 +3,7 @@ import * as U from 'karet.util'
 import React from 'karet'
 
 export const ticks = ({interval = 1 / 30, duration}) =>
-  U.seq(
+  U.thru(
     U.interval(interval, 0),
     U.takeUntilBy(U.later(duration, 0)),
     U.foldPast(start => start || Date.now(), 0),
@@ -53,12 +53,12 @@ export const transitionMaxHeight = ({content, show, transitionPeriod}) => {
   const transition = `max-height ${transitionPeriod}ms ease-in-out`
 
   return U.parallel([
-    U.seq(
+    U.thru(
       show,
       U.takeFirst(1),
       U.liftRec(s => (s ? {} : {overflowY, maxHeight: '0px'}))
     ),
-    U.seq(
+    U.thru(
       show,
       U.changes,
       U.flatMapLatest(s => {

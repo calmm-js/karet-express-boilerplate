@@ -5,7 +5,7 @@ const vars = [
   /* e.g. "GA" */
 ]
 
-export default /*#__PURE__*/ U.seq(
+export default /*#__PURE__*/ U.thru(
   typeof window === 'undefined'
     ? process.env
     : JSON.parse(document.getElementById('env-data').getAttribute('data-env')),

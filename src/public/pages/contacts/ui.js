@@ -32,7 +32,7 @@ export function New() {
   const actions = U.bus()
   const save = () =>
     actions.push(
-      U.seq(
+      U.thru(
         U.template({contact}),
         U.takeFirst(1),
         RPC.mkPost('contacts/data', null),
@@ -61,7 +61,7 @@ export function Edit({id}) {
   const entry = U.string`contacts/data/${id}`
 
   const read = RPC.mkGet(entry, null)
-  const autosave = U.seq(
+  const autosave = U.thru(
     state,
     U.skipFirst(2),
     U.debounce(300),
@@ -88,7 +88,7 @@ export function Browse() {
   const bodyElem = U.variable()
   const scrollTop = U.atom(0)
 
-  const limit = U.seq(
+  const limit = U.thru(
     U.template([
       bodyElem,
       W.dimensions,
@@ -108,7 +108,7 @@ export function Browse() {
     actions.push(RPC.mkDelete(`contacts/data/${id}`, {}))
   const actionsIO = execute(actions)
 
-  const contactsQuery = U.seq(
+  const contactsQuery = U.thru(
     U.template([
       {
         offset: U.floor(R.divide(scrollTop, rowHeight)),
@@ -156,13 +156,13 @@ export function Browse() {
                 U.ifElse(R.mathMod(offset, 2), 'odd', 'even')
               )}
               style={{top: U.string`${R.multiply(offset, rowHeight)}px`}}>
-              {U.seq(
+              {U.thru(
                 U.view('data', contacts),
                 U.mapElemsWithIds('id', (item, id) => {
                   const contact = U.view('contact', item)
                   const href = `/contacts/${id}`
                   return (
-                    <div className="row">
+                    <div className="row" key={id}>
                       <div>
                         <button onClick={remove(id)}>&#x2715;</button>
                       </div>
