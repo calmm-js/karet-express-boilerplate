@@ -17,7 +17,7 @@ const metas = {
 
 const urls = [L.props('img', 'url'), L.values]
 
-export const get = U.liftRec(({path}, host) =>
+export const get = U.lift(({path}, host) =>
   L.modify(urls, url => `http://${host}/${url}`, metas[path] || metaDefault)
 )
 

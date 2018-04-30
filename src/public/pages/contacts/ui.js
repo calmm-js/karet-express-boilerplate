@@ -96,7 +96,7 @@ export function Browse() {
         U.interval(100, 0)
       )
     ]),
-    U.liftRec(([e]) =>
+    U.lift(([e]) =>
       Math.trunc((e.getBoundingClientRect().height + rowHeight - 1) / rowHeight)
     ),
     U.startWith(0)

@@ -3,8 +3,8 @@ import * as React from 'karet'
 import * as U from 'karet.util'
 
 export function RestrictedInput({value, meta, edited = U.atom(), ...props}) {
-  const format = U.liftRec(meta.format)
-  const parse = U.liftRec(meta.parse)
+  const format = U.lift(meta.format)
+  const parse = U.lift(meta.parse)
   const shown = U.ifElse(R.isNil(edited), format(value), edited)
   function exit(e) {
     edited.set()

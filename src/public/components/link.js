@@ -15,7 +15,7 @@ export const Link = U.withContext(
     {href, onClick: outerOnClick, onThere, mount, className, ...props},
     {location}
   ) => {
-    const onClick = U.liftRec(href => e => {
+    const onClick = U.lift(href => e => {
       const internal = /^((\/[^?#]*)([?][^#]*)?)?([#].*)?$/.exec(href)
 
       if (internal) {

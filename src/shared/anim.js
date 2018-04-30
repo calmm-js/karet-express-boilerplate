@@ -8,11 +8,11 @@ export const ticks = ({interval = 1 / 30, duration}) =>
     U.takeUntilBy(U.later(duration, 0)),
     U.foldPast(start => start || Date.now(), 0),
     U.skipFirst(1),
-    U.liftRec(start => Math.min(duration, Date.now() - start) / duration),
+    U.lift(start => Math.min(duration, Date.now() - start) / duration),
     U.endWith(1)
   )
 
-export const easeInOutCubic = /*#__PURE__*/ U.liftRec(
+export const easeInOutCubic = /*#__PURE__*/ U.lift(
   t => (t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1)
 )
 
@@ -56,7 +56,7 @@ export const transitionMaxHeight = ({content, show, transitionPeriod}) => {
     U.thru(
       show,
       U.takeFirst(1),
-      U.liftRec(s => (s ? {} : {overflowY, maxHeight: '0px'}))
+      U.lift(s => (s ? {} : {overflowY, maxHeight: '0px'}))
     ),
     U.thru(
       show,
