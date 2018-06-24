@@ -12,9 +12,9 @@ const rowHeight = 28
 
 const execute = U.through(U.flatMapSerial(R.identity), U.startWith({}))
 
-const LabeledTextInput = ({value, label}) => (
+const LabeledTextInput = ({label, ...props}) => (
   <label>
-    {label}: <input type="text" value={value} onChange={U.getProps({value})} />
+    {label}: <U.Input {...props} />
   </label>
 )
 

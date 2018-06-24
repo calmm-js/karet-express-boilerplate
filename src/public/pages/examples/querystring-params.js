@@ -5,7 +5,6 @@ import * as U from 'karet.util'
 
 import {Link} from '../../components/link'
 
-import {TextInput} from '../../components/text-input'
 import {PrettyStringify} from '../../components/pretty-stringify'
 
 const addQuerystringParams = params => params.modify(R.append(['', '']))
@@ -13,10 +12,10 @@ const addQuerystringParams = params => params.modify(R.append(['', '']))
 const QuerystringParam = ({param}) => (
   <tr>
     <td>
-      <TextInput value={U.view(0, param)} />
+      <U.Input value={U.view(0, param)} />
     </td>
     <td>
-      <TextInput value={U.view(1, param)} />
+      <U.Input value={U.view(1, param)} />
     </td>
     <td>
       <button onClick={() => param.remove()}>Remove</button>
