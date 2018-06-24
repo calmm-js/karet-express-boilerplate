@@ -4,7 +4,7 @@ import nodeBuiltins from 'rollup-plugin-node-builtins'
 import nodeGlobals from 'rollup-plugin-node-globals'
 import nodeResolve from 'rollup-plugin-node-resolve'
 import replace from 'rollup-plugin-replace'
-import uglify from 'rollup-plugin-uglify'
+import {uglify} from 'rollup-plugin-uglify'
 
 export default {
   plugins: [

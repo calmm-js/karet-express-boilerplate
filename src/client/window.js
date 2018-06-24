@@ -16,7 +16,10 @@ export const popstate = /*#__PURE__*/ fromWindow('popstate')
 export const resize = /*#__PURE__*/ fromWindow('resize')
 export const orientationchange = /*#__PURE__*/ fromWindow('orientationchange')
 
-export const dimensions = /*#__PURE__*/ U.parallel([resize, orientationchange])
+export const dimensions = /*#__PURE__*/ U.parallel([
+  resize,
+  orientationchange
+]).toProperty(next)
 
 //
 

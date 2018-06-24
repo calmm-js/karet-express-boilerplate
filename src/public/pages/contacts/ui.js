@@ -91,9 +91,11 @@ export function Browse() {
     U.template([
       bodyElem,
       W.dimensions,
-      U.takeUntilBy(
-        U.skipUnless(R.identity, U.lazy(() => limit)),
-        U.interval(100, 0)
+      U.toProperty(
+        U.takeUntilBy(
+          U.skipUnless(R.identity, U.lazy(() => limit)),
+          U.interval(100, 0)
+        )
       )
     ]),
     U.lift(([e]) =>
