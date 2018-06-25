@@ -45,7 +45,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.16.3",
     "karet": "^3.4.0",
-    "karet.util": "^0.18.16",
+    "karet.util": "^0.18.17",
     "kefir": "^3.8.3",
     "kefir.atom": "^5.5.1",
     "kefir.partial.lenses": "^13.13.2",
@@ -77,7 +77,7 @@
   "devDependencies": {
     "eslint": "^5.0.0",
     "eslint-plugin-babel": "^5.1.0",
-    "eslint-plugin-react": "^7.9.1",
+    "eslint-plugin-react": "^7.10.0",
     "livereload": "^0.7.0",
     "mocha": "^5.2.0",
     "nodemon": "^1.17.5",
