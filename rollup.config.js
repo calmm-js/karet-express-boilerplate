@@ -20,6 +20,7 @@ export default {
           'Children',
           'Component',
           'Fragment',
+          'PureComponent',
           'createContext',
           'createElement',
           'forwardRef'
