@@ -1,9 +1,10 @@
 import smoothScroll from 'smoothscroll'
 
-const scroll = (target, ...args) => {
-  if (typeof target === 'string') target = document.querySelector(target)
+export const scroll =
+  typeof window === 'undefined'
+    ? () => {}
+    : (target, ...args) => {
+        if (typeof target === 'string') target = document.querySelector(target)
 
-  target !== undefined && target !== null && smoothScroll(target, ...args)
-}
-
-export default (typeof window === 'undefined' ? () => {} : scroll)
+        target !== undefined && target !== null && smoothScroll(target, ...args)
+      }

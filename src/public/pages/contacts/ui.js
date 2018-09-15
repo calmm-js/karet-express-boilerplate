@@ -10,7 +10,7 @@ import {Link} from '../../components/link'
 
 const rowHeight = 28
 
-const execute = U.through(U.flatMapSerial(R.identity), U.startWith({}))
+const execute = U.through(U.flatMapSerial(R.call), U.startWith({}))
 
 const LabeledTextInput = ({label, ...props}) => (
   <label>
@@ -29,18 +29,17 @@ export function New() {
   const contact = U.atom({name: '', phone: ''})
 
   const actions = U.bus()
-  const save = () =>
-    actions.push(
-      U.thru(
-        U.template({contact}),
-        U.takeFirst(1),
-        RPC.mkPost('contacts/data', null),
-        U.tapPartial(status => {
-          const id = L.get('id', status)
-          if (id) W.location.modify(L.set('path', `/contacts/${id}`))
-        })
-      )
+  const save = U.doPush(actions, () =>
+    U.thru(
+      U.template({contact}),
+      U.takeFirst(1),
+      RPC.mkPost('contacts/data', null),
+      U.tapPartial(status => {
+        const id = L.get('id', status)
+        if (id) W.location.modify(L.set('path', `/contacts/${id}`))
+      })
     )
+  )
   const io = R.equals(undefined, execute(actions))
 
   return (
@@ -105,8 +104,8 @@ export function Browse() {
   )
 
   const actions = U.bus()
-  const remove = id => () =>
-    actions.push(RPC.mkDelete(`contacts/data/${id}`, {}))
+  const remove = id =>
+    U.doPush(actions, () => RPC.mkDelete(`contacts/data/${id}`, {}))
   const actionsIO = execute(actions)
 
   const contactsQuery = U.thru(

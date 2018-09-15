@@ -16,6 +16,8 @@ import {Page} from './components/page'
 import * as Meta from './meta'
 import * as State from './state'
 
+import {routes} from './routes'
+
 //
 
 const state = MaybeSessionStored({
@@ -27,7 +29,7 @@ const state = MaybeSessionStored({
 
 //
 
-const context = State.context(location, window.location.host, state)
+const context = State.context(location, window.location.host, state, routes)
 
 //
 
